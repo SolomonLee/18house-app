@@ -1,0 +1,259 @@
+// ===== COMMON =====
+// windows : w
+// @include w-xl {
+// }
+// @include w-lg-xl {
+// }
+// @include w-lg {
+// }
+// @include w-md-lg {
+// }
+// @include w-md {
+// }
+// @include w-sm-md {
+// }
+// @include w-sm {
+// }
+// @include w-xs {
+// }
+@mixin w-xl {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin w-lg-xl {
+  @media (min-width: 992px) and (max-width: 1199.999px) {
+    @content;
+  }
+}
+
+@mixin w-lg {
+  @media (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin w-md-lg {
+  @media (min-width: 768px) and (max-width: 991.999px) {
+    @content;
+  }
+}
+
+@mixin w-md {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin w-sm-md {
+  @media (min-width: 576px) and (max-width: 768.999px) {
+    @content;
+  }
+}
+
+@mixin w-sm {
+  @media (min-width: 576px) {
+    @content;
+  }
+}
+
+@mixin w-xs {
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+
+%list_clear {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+%btn_clear {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+%a_clear {
+  &,
+  &:active,
+  &:hover,
+  &:focus {
+    color: #000;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+// ===== COMMON : END =====
+
+// ===== TAG =====
+header {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+
+  .title {
+    letter-spacing: 0.2em;
+    font: normal normal bold 59px/1.4em brandon-grot-w01-light, sans-serif;
+    font-size: 59px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 35px;
+    margin-bottom: 70px;
+
+    img {
+      width: 120px;
+      height: 120px;
+      margin: -60px 0 -60px -60px;
+    }
+  }
+
+  .menu_item {
+    text-align: center;
+    margin-bottom: 25px;
+
+    li > a {
+      min-width: 142px;
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
+
+      @include w-sm-md {
+        min-width: 90px;
+      }
+      @include w-xs {
+        min-width: auto;
+        padding: 0 5px;
+      }
+    }
+  }
+} // header
+
+footer {
+  padding-bottom: 50px;
+
+  .fmenu_item.item_group {
+    text-align: center;
+    display: flex;
+
+    > .fmenu_item {
+      min-width: 80px;
+      flex: 1;
+
+      > .item_content {
+        display: inline-block;
+      }
+    }
+
+    > .fmenu_item:first-child {
+      text-align: left;
+    }
+    > .fmenu_item:last-child {
+      text-align: right;
+    }
+
+    @include w-md-lg {
+      > .fmenu_item:first-child {
+        margin-right: 190px;
+      }
+      > .fmenu_item:last-child {
+        margin-left: 190px;
+      }
+    }
+
+    @include w-sm-md {
+      > .fmenu_item:first-child {
+        margin-right: 0;
+      }
+      > .fmenu_item:last-child {
+        margin-left: 0;
+      }
+    }
+
+    @include w-xs {
+      > .fmenu_item:first-child {
+        margin-right: 0;
+      }
+      > .fmenu_item:last-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+// ===== TAG : END =====
+
+// ===== BASIC ELEMENT =====
+.btn {
+  @extend %btn_clear;
+
+  border-radius: 0;
+  height: 40px;
+  line-height: 40px;
+  letter-spacing: 1px;
+
+  &,
+  &:focus,
+  &:active {
+    outline: none !important;
+  }
+
+  &.btn_style_none {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+  }
+
+  &.btn_style1 {
+    @extend %btn_clear;
+
+    padding: 0 45px;
+    border: solid 1px #000;
+    color: #fff;
+    background-color: #000;
+
+    &:hover {
+      color: #fff;
+      background-color: #aaa;
+      border-color: #aaa;
+    }
+  }
+
+  &.btn_style2 {
+    @extend %btn_clear;
+
+    border: solid 1px #000;
+    background: #fff;
+    border-radius: 0;
+    color: #000;
+    padding: 8px 16px;
+  }
+
+  &.btn_style3 {
+    @extend %btn_clear;
+
+    background: transparent;
+    border-radius: 0;
+    color: #000;
+    padding: 8px 16px;
+  }
+} // btn
+
+.content {
+  min-height: calc(100vh - 400px);
+} // btn
+
+.text_title {
+  letter-spacing: 1px;
+}
+// ===== BASIC ELEMENT : END =====
+
+// ===== BOX =====
+// ===== BOX : END =====
+
+// ===== ITEM =====
+// ===== ITEM : END =====
+
+// ===== PAGE =====
+// ===== PAGE : END =====
