@@ -26,15 +26,33 @@ function FormContact() {
       <div className="item_content">
         <div className="row">
           <div className="col">
-            <FillItem placeholder="如何稱呼呢?" setValue={setName} />
+            <FillItem
+              placeholder="如何稱呼呢?"
+              setValue={setName}
+              type="text"
+              defaultValue={name}
+              request={true}
+            />
           </div>
           <div className="col">
-            <FillItem placeholder="你的 Email" setValue={setEmail} />
+            <FillItem
+              placeholder="你的 Email"
+              setValue={setEmail}
+              type="text"
+              defaultValue={email}
+              request={true}
+            />
           </div>
         </div>
         <div className="row">
           <div className="col">
-            <FillItem placeholder="來點主題吧" setValue={setSubject} />
+            <FillItem
+              placeholder="來點主題吧"
+              setValue={setSubject}
+              type="text"
+              defaultValue={subject}
+              request={true}
+            />
           </div>
         </div>
         <div className="row">

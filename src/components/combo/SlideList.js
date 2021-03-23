@@ -1,6 +1,8 @@
 import ShowcaseItem from "../ShowcaseItem";
 
 function SlideList(props) {
+  if (props?.datas?.length == 0) return null;
+
   const porducts = props.datas.map((data) => {
     switch (data.type) {
       case "Showcase":

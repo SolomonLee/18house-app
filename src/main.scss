@@ -369,11 +369,19 @@ body .App .btn {
   }
 } // slide_list_box
 
+.form_box {
+  &.x {
+    > .box_title {
+      padding-bottom: 30px;
+    }
+  }
+}
+
 // ===== BOX : END =====
 
 // ===== ITEM =====
 [class$="_item"] {
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .list_item {
@@ -576,6 +584,143 @@ body .App .btn {
     }
   }
 } // split_item
+
+.fill_item {
+  &:focus-within {
+    > .item_title {
+      font-size: 16px;
+    }
+
+    > .item_content {
+      .placeholder {
+        display: none;
+      }
+    }
+  }
+
+  > .item_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align-last: left;
+    font-size: 17px;
+    line-height: 24px;
+    padding-top: 8px;
+    transition: font-size ease-in-out 0.2s;
+  }
+
+  > .item_content {
+    position: relative;
+
+    .placeholder {
+      color: #444;
+      pointer-events: none;
+      user-select: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+      line-height: 42px;
+      overflow: hidden;
+      text-align: left;
+      padding-left: 8px;
+    }
+
+    > [class="error"] {
+      color: red;
+      font-size: 12px;
+      text-align: left;
+      position: absolute;
+      bottom: -16px;
+      padding-left: 8px;
+      user-select: none;
+      position: absolute;
+    }
+  }
+}
+
+.input_item {
+  margin-bottom: 0;
+
+  &.error {
+    > .item_content {
+      &:after {
+        border-bottom-color: rgb(196, 62, 62);
+      }
+    }
+  }
+
+  > .item_content {
+    height: 40px;
+    padding-bottom: 2px;
+    position: relative;
+    line-height: 32px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 1px solid #000;
+      pointer-events: none;
+    }
+
+    .placeholder {
+      color: #444;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+      line-height: 42px;
+      overflow: hidden;
+      text-align: left;
+      padding-left: 8px;
+    }
+
+    &:focus-within {
+      &:after {
+        border-bottom-width: 2px;
+      }
+
+      .placeholder {
+        display: none;
+      }
+    }
+  }
+
+  input,
+  input:active,
+  input:focus,
+  input:focus-within,
+  input:hover,
+  textarea,
+  textarea:active,
+  textarea:focus,
+  textarea:focus-within,
+  textarea:hover {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    cursor: inherit;
+    outline: none;
+    padding: 0 0 0 8px;
+  }
+
+  input,
+  textarea {
+    font-size: 18px;
+    width: 100% !important;
+    vertical-align: text-top;
+
+    &.error {
+    }
+  }
+}
 
 // ===== ITEM : END =====
 
