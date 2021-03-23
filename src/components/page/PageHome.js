@@ -43,7 +43,7 @@ const PageHome = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <SlideList title="New Arrivals" datas={showCase} />
+            <SlideList title="展示區一" datas={showCase} />
           </div>
         </div>
         <div className="row">

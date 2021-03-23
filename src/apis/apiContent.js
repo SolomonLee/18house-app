@@ -7,6 +7,8 @@ const _menus = [
   { tag: "Contact", title: "聯絡我們", url: "/Contact" },
 ];
 
+const _subMenus = [{ tag: "FAQ", title: "FAQ", url: "/" }];
+
 const _getBroadcast = [
   "網站製作中",
   "終於看到頁面",
@@ -76,6 +78,18 @@ const _getHomeShowCase = [
   },
 ];
 
+let _contactDatas = [
+  { title: "到店參觀", contents: ["新北市XXXX", "中山路段段18號"] },
+  {
+    title: "營業時間",
+    contents: ["平日: 7:00 ~ 開到開心", "假日: 睡到開心 ~ 開到開心"],
+  },
+  {
+    title: "聯絡方式",
+    contents: ["電話: 02-xxxxxxxx", "email: ABC@gmail.com"],
+  },
+];
+
 const _testPost = (_data, _returnTime = 500) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -88,6 +102,10 @@ export const getMenus = () => {
   return _testPost(_menus);
 };
 
+export const getSubMenus = () => {
+  return _testPost(_subMenus);
+};
+
 export const getBroadcast = () => {
   return _testPost(_getBroadcast);
 };
@@ -98,4 +116,8 @@ export const getHomeBanner = () => {
 
 export const getHomeShowCase = () => {
   return _testPost(_getHomeShowCase);
+};
+
+export const getContactDatas = () => {
+  return _testPost(_contactDatas);
 };

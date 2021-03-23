@@ -16,3 +16,12 @@ export const getHomeShowCase_SlideList = (datas) => {
     };
   });
 };
+
+export const getContactDatas_ListItem = (datas) => {
+  return datas.map((data) => {
+    return {
+      title: data.title,
+      datas: data.contents,
+    };
+  });
+};

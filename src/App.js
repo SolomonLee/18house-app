@@ -12,12 +12,14 @@ import PageContact from "./components/page/PageContact";
 
 import Broadcast from "./components/Broadcast";
 import LinkList from "./components/LinkList";
+import Split from "./components/Split";
 
-import { getMenus, getBroadcast } from "./apis/apiContent";
+import { getMenus, getSubMenus, getBroadcast } from "./apis/apiContent";
 import { getMenus_LinkList } from "./adapters/atContent";
 
 function App() {
   const [menus, setMenus] = useState([]);
+  const [subMenus, setSubMenus] = useState([]);
   const [broadcast, setBroadcast] = useState([]);
 
   useEffect(() => {
@@ -38,6 +40,15 @@ function App() {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
       }
     );
+
+    getSubMenus().then(
+      (_subMenus) => {
+        setSubMenus(getMenus_LinkList(_subMenus));
+      },
+      () => {
+        alert("這個網站發生一些錯誤, 請聯絡官方人員。");
+      }
+    );
   }, []);
 
   return (
@@ -48,7 +59,7 @@ function App() {
           <div className="title">
             <img src="img/icon2.jpg" alt="" /> 熊村莊
           </div>
-          <LinkList styleClass="menu" datas={menus} tkey="headerMenu" />
+          <LinkList styleClass="header_menu" datas={menus} tkey="headerMenu" />
         </header>
         <Switch>
           <Route exact path="/">
@@ -70,6 +81,28 @@ function App() {
             <PageContact />
           </Route>
         </Switch>
+        <footer>
+          <Split content="熊村莊" />
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4">
+                <LinkList
+                  styleClass="footer_menu"
+                  datas={menus}
+                  tkey="footerMainMenu"
+                />
+              </div>
+              <div className="col-md-4"></div>
+              <div className="col-md-4">
+                <LinkList
+                  styleClass="footer_menu"
+                  datas={subMenus}
+                  tkey="footerSubMenu"
+                />
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
     </Router>
   );

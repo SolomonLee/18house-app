@@ -4,8 +4,6 @@ function SlideList(props) {
   const porducts = props.datas.map((data) => {
     switch (data.type) {
       case "Showcase":
-        console.log(data.url);
-        console.log(data.url);
         return (
           <ShowcaseItem
             key={props.tkey + data.title}
@@ -21,9 +19,7 @@ function SlideList(props) {
 
   return (
     <div className="slide_list_box">
-      {props?.listName ? (
-        <div className="box_title">{props.listName}</div>
-      ) : null}
+      {props?.title ? <div className="box_title">{props.title}</div> : null}
       <div className="box_content">{porducts}</div>
       <div className="box_bottom">
         <div className="slide_control"></div>
