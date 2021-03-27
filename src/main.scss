@@ -213,6 +213,12 @@ body .App .btn {
 .banner_box {
   position: relative;
 
+  &.cover {
+    .datas > li img {
+      object-fit: cover;
+    }
+  }
+
   .datas {
     @extend %list_clear;
     width: 100%;
@@ -234,17 +240,77 @@ body .App .btn {
     }
 
     > li {
-      display: inline-block;
+      display: none;
       width: 100%;
       height: inherit;
       overflow: hidden;
       position: absolute;
-      left: 0;
 
       img {
         width: 100%;
         height: 100%;
         object-fit: contain;
+      }
+    }
+
+    > .now {
+      display: inline-block;
+      left: 0;
+    }
+
+    $bannerduration: 1s;
+
+    &.goRight {
+      > .prve {
+        display: inline-block;
+        left: -100vw;
+      }
+
+      > .prve.active {
+        @include easy_animation(
+          "banner_prve_move_right",
+          left,
+          0,
+          -100vw,
+          $bannerduration
+        );
+      }
+
+      > .now.active {
+        @include easy_animation(
+          "banner_now_move_right",
+          left,
+          100vw,
+          0,
+          $bannerduration
+        );
+      }
+    }
+
+    &.goLeft {
+      > .prve {
+        display: inline-block;
+        left: 100vw;
+      }
+
+      > .prve.active {
+        @include easy_animation(
+          "banner_prve_move_left",
+          left,
+          0,
+          100vw,
+          $bannerduration
+        );
+      }
+
+      > .now.active {
+        @include easy_animation(
+          "banner_now_move_left",
+          left,
+          -100vw,
+          0,
+          $bannerduration
+        );
       }
     }
   }
@@ -375,7 +441,23 @@ body .App .btn {
       padding-bottom: 30px;
     }
   }
-}
+} // form_box
+
+.google_map_box {
+  > .box_title {
+    + .box_content {
+      padding-top: 20px;
+    }
+  }
+
+  > .box_content {
+    padding: 60px 0 20px;
+
+    iframe {
+      height: 450px;
+    }
+  }
+} // google_map_box
 
 // ===== BOX : END =====
 
@@ -651,7 +733,7 @@ body .App .btn {
   }
 
   > .item_content {
-    height: 40px;
+    //height: 40px;
     padding-bottom: 2px;
     position: relative;
     line-height: 32px;
@@ -716,9 +798,13 @@ body .App .btn {
     font-size: 18px;
     width: 100% !important;
     vertical-align: text-top;
+    resize: none;
+    // &.error {
+    // }
+  }
 
-    &.error {
-    }
+  textarea {
+    height: 120px;
   }
 }
 

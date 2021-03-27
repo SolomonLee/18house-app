@@ -4,6 +4,7 @@ import InputItem from "../InputItem";
 
 // props { styleClass[string] , title[string], type[string], data , placeholder[string],
 // defaultValue[string], setValue[function]}
+
 const FillItem = (props) => {
   const [errorMsg, setErrorMsg] = useState(props?.errorMsg || "");
   const [showPlaceholder, setShowPlaceholder] = useState(

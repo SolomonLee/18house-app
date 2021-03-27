@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Banner from "../Banner";
 import SlideList from "../combo/SlideList";
 
-import { getHomeBanner, getHomeShowCase } from "../../apis/apiContent";
+import { getBanner, getHomeShowCase } from "../../apis/apiContent";
 import { getHomeShowCase_SlideList } from "../../adapters/atContent";
 
 const PageHome = (props) => {
@@ -12,7 +12,7 @@ const PageHome = (props) => {
   const [showCase, setShowCase] = useState([]);
 
   useEffect(() => {
-    getHomeBanner().then(
+    getBanner("Home").then(
       (_banner) => {
         setBanner(_banner);
       },

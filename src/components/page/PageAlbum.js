@@ -25,7 +25,7 @@ const PageAlbum = (props) => {
       <div className="container-fluid">
         <div className="row">
           <div className="w-100">
-            <Banner datas={banner} objectFit="cover" />
+            {/* <Banner datas={banner} objectFit="cover" /> */}
           </div>
         </div>
       </div>

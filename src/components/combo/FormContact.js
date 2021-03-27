@@ -57,10 +57,13 @@ function FormContact() {
         </div>
         <div className="row">
           <div className="col">
-            {/* <TextareaItem
+            <FillItem
               placeholder="這裡需要一點訊息"
               setValue={setMessage}
-            /> */}
+              type="textArea"
+              defaultValue={message}
+              request={true}
+            />
           </div>
         </div>
       </div>
