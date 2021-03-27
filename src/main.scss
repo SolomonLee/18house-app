@@ -213,7 +213,7 @@ body .App .btn {
 .banner_box {
   position: relative;
 
-  &.cover {
+  &[objectfit="cover"] {
     .datas > li img {
       object-fit: cover;
     }
@@ -259,14 +259,11 @@ body .App .btn {
     }
 
     $bannerduration: 1s;
-
-    &.goRight {
+    &[bannerdirection="goRight"] {
       > .prve {
         display: inline-block;
         left: -100vw;
-      }
 
-      > .prve.active {
         @include easy_animation(
           "banner_prve_move_right",
           left,
@@ -276,7 +273,7 @@ body .App .btn {
         );
       }
 
-      > .now.active {
+      > .now {
         @include easy_animation(
           "banner_now_move_right",
           left,
@@ -287,13 +284,11 @@ body .App .btn {
       }
     }
 
-    &.goLeft {
+    &[bannerdirection="goLeft"] {
       > .prve {
         display: inline-block;
         left: 100vw;
-      }
 
-      > .prve.active {
         @include easy_animation(
           "banner_prve_move_left",
           left,
@@ -303,7 +298,7 @@ body .App .btn {
         );
       }
 
-      > .now.active {
+      > .now {
         @include easy_animation(
           "banner_now_move_left",
           left,
@@ -311,6 +306,13 @@ body .App .btn {
           0,
           $bannerduration
         );
+      }
+    }
+
+    &[banneraction="stop"] {
+      > .prve,
+      > .now {
+        animation-iteration-count: 0;
       }
     }
   }
@@ -370,7 +372,7 @@ body .App .btn {
           opacity: 0.6;
         }
 
-        &.active {
+        &[active] {
           background-color: #fff;
           border: solid 2px #666;
           opacity: 0.6;

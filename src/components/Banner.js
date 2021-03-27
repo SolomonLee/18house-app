@@ -2,186 +2,76 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { useState, useEffect, useRef } from "react";
 
-const bannerDuration = 1000;
-let autoMoveBannerDuration = 5000;
-let prveMove = Date.now();
-let bannerIntervalTimer = null;
-
-// const setBannerIntervalTimer = () => {
-//   clearInterval(bannerIntervalTimer);
-
-//   bannerIntervalTimer = setInterval(() => {
-//     if (Date.now() - prveMove < autoMoveBannerDuration) return;
-//     const btn = document.querySelector(".banner_box .btn_right");
-//     if (btn) btn.click();
-//   }, 3000);
-// };
+const bannerLockDuration = 1000; // 嘗試切換banner 間隔時間
+const autoMoveBannerDuration = 5000; // 自動切換banner 每次間隔時間
 
 // props : 1. datas  , 2. objectFit: cover or contain(default)
 const Banner = (props) => {
   if (!props.datas?.length) return null;
 
-  const [objDatasClassNames, setObjDatasClassNames] = useState({ datas: true });
-  const [bannerDatas, setBannerDatas] = useState([]);
-  const [moveBannerLeft, setMoveBannerLeft] = useState({ run: () => {} });
-  const [moveBannerRight, setMoveBannerRight] = useState({ run: () => {} });
-  const timerRef = useRef();
+  const [bannerAction, setBannerAction] = useState("stop"); // 控制是否有動畫
+  const [bannerDatas, setBannerDatas] = useState([]); // banner資料 array
+  const [bannerWaitIndex, setBannerWaitIndex] = useState(0); // 等待動畫 準備移除標記的 banner資料 index
+  const [bannerIndex, setBannerIndex] = useState(0); // 目前 banner資料 index
+  const [bannerDirection, setBannerDirection] = useState("goRight"); // banner 動畫方向
+  const bannerLock = useRef(false); // banner 動畫CD時間
+  const timerAutoRunBanner = useRef(); // banner 動畫CD時間
 
-  let _moveBannerLock = false;
-  const _moveBanner = (_banners, nowBanner, prveBanner, index) => {
-    if (_moveBannerLock) return [nowBanner, prveBanner, false];
-    _moveBannerLock = true;
+  const moveBanner = (index) => {
+    if (bannerLock.current) return false;
+    bannerLock.current = true;
 
     setTimeout(() => {
-      _moveBannerLock = false;
-    }, bannerDuration);
+      bannerLock.current = false;
+    }, bannerLockDuration);
 
-    if (!index && index !== 0) return;
+    if (index == bannerIndex) return;
 
-    for (let i = 0; i < _banners.length; i++) {
-      if (_banners[i].classNames.now) {
-        if (i == index) break;
+    bannerDatas[bannerWaitIndex].classNames.prve = false;
+    bannerDatas[bannerIndex].classNames.now = false;
+    bannerDatas[bannerIndex].classNames.prve = true;
+    bannerDatas[index].classNames.prve = false;
+    bannerDatas[index].classNames.now = true;
 
-        if (prveBanner) {
-          prveBanner.classNames.prve = false;
-          prveBanner.classNames.active = false;
-        }
-        prveBanner = nowBanner;
-        nowBanner = _banners[index];
+    if (bannerIndex > index) setBannerDirection("goLeft");
+    else setBannerDirection("goRight");
 
-        if (i > index)
-          setObjDatasClassNames({
-            datas: true,
-            goRight: false,
-            goLeft: true,
-          });
-        else
-          setObjDatasClassNames({
-            datas: true,
-            goRight: true,
-            goLeft: false,
-          });
-
-        [
-          nowBanner.classNames.now,
-          nowBanner.classNames.prve,
-          nowBanner.classNames.active,
-          prveBanner.classNames.now,
-          prveBanner.classNames.prve,
-          prveBanner.classNames.active,
-        ] = [true, false, true, false, true, true];
-
-        break;
-      }
-    }
-    setBannerDatas(_banners);
-    // console.log("==========");
-    prveMove = Date.now();
-    return [nowBanner, prveBanner, true];
+    setBannerWaitIndex(bannerIndex);
+    setBannerIndex(index);
+    setBannerDatas(bannerDatas);
+    return true;
   };
 
   useEffect(() => {
-    let [nowBanner, prveBanner] = [null, null];
-    const banners = [];
+    setBannerAction("stop");
+    bannerDatas.splice(0, bannerDatas.length);
     props.datas.forEach((data) => {
-      banners.push({});
+      bannerDatas.push({});
 
-      let _banner = banners[banners.length - 1];
-      _banner["index"] = banners.length - 1;
+      const _index = bannerDatas.length - 1;
+      let _banner = bannerDatas[_index];
       _banner["url"] = data?.url;
       _banner["imgAlt"] = data?.imgAlt;
       _banner["imgUrl"] = data?.imgUrl;
 
-      _banner["handlerClickPageItem"] = () => {
-        [nowBanner, prveBanner] = _moveBanner(
-          banners,
-          nowBanner,
-          prveBanner,
-          _banner["index"]
-        );
-      };
-
-      if (_banner["index"] == 0) {
-        _banner["classNames"] = { active: false, now: true, prve: false };
-        nowBanner = _banner;
-      } else _banner["classNames"] = { active: false, now: false, prve: false };
+      if (_index == 0) _banner["classNames"] = { now: true, prve: false };
+      else _banner["classNames"] = { now: false, prve: false };
     });
 
-    setMoveBannerRight({
-      run: () => {
-        for (let i = banners.length - 1; i >= 0; i--) {
-          if (banners[i].classNames.now) {
-            if (i == banners.length - 1) {
-              [nowBanner, prveBanner] = _moveBanner(
-                banners,
-                nowBanner,
-                prveBanner,
-                0
-              );
-            } else {
-              [nowBanner, prveBanner] = _moveBanner(
-                banners,
-                nowBanner,
-                prveBanner,
-                i + 1
-              );
-            }
-            break;
-          }
-        }
-      },
-    });
+    setBannerDatas(bannerDatas);
+    setBannerIndex(0);
 
-    setMoveBannerLeft({
-      run: () => {
-        // console.log("test moveBannerLeft bannerDatas", banners);
-        // console.log("test moveBannerLeft _banners", banners);
-        for (let i = 0; i < banners.length; i++) {
-          if (banners[i].classNames.now) {
-            // console.log("test moveBannerLeft i", i, banners.length - 1);
-            if (i == 0) {
-              [nowBanner, prveBanner] = _moveBanner(
-                banners,
-                nowBanner,
-                prveBanner,
-                banners.length - 1
-              );
-            } else {
-              [nowBanner, prveBanner] = _moveBanner(
-                banners,
-                nowBanner,
-                prveBanner,
-                i - 1
-              );
-            }
-            break;
-          }
-        }
-      },
-    });
-
-    setBannerDatas(banners);
-
-    //setBannerIntervalTimer();
+    setTimeout(() => {
+      setBannerAction("start");
+    }, 1000);
   }, [props.datas]);
 
   useEffect(() => {
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      if (Date.now() - prveMove < autoMoveBannerDuration) return;
-      const btn = document.querySelector(".banner_box .btn_right");
-      if (btn) btn.click();
-      // moveBannerRight.run();
-    }, 2000);
-  }, [moveBannerRight]);
-
-  const objBannerBoxClassNames = { banner_box: true };
-  if (
-    props?.objectFit &&
-    (props.objectFit == "cover" || props.objectFit == "contain")
-  ) {
-    objBannerBoxClassNames[props?.objectFit] = true;
-  }
+    clearTimeout(timerAutoRunBanner.current);
+    timerAutoRunBanner.current = setTimeout(() => {
+      moveBannerRight();
+    }, autoMoveBannerDuration);
+  }, [bannerIndex]);
 
   const datas = bannerDatas.map((data) => {
     if (data?.url) {
@@ -207,27 +97,39 @@ const Banner = (props) => {
     }
   });
 
-  const btnsPage = bannerDatas.map((data) => {
-    const objClassNames = {
-      btn: true,
-      btn_style_none: true,
+  const btnsPage = bannerDatas.map((data, index) => {
+    const handlerClickPageItem = () => {
+      moveBanner(index);
     };
-
-    if (data.classNames.now) objClassNames["active"] = true;
 
     return (
       <button
-        key={"banner_" + data.index}
-        className={classNames(objClassNames)}
-        onClick={data.handlerClickPageItem}
+        key={"banner_" + index}
+        className="btn btn_style_none"
+        active={data.classNames.now ? "" : null}
+        onClick={handlerClickPageItem}
       />
     );
   });
 
+  const moveBannerLeft = () => {
+    if (bannerIndex - 1 < 0) moveBanner(bannerDatas.length - 1);
+    else moveBanner(bannerIndex - 1);
+  };
+
+  const moveBannerRight = () => {
+    if (bannerIndex + 1 == bannerDatas.length) moveBanner(0);
+    else moveBanner(bannerIndex + 1);
+  };
+
   return (
-    <div className={classNames(objBannerBoxClassNames)}>
+    <div className="banner_box" objectfit={props?.objectFit}>
       <div className="box_content">
-        <ul className={classNames(objDatasClassNames)}>
+        <ul
+          className="datas"
+          bannerdirection={bannerDirection}
+          banneraction={bannerAction}
+        >
           {datas}
           {/* <li>
             <div className="data_box">
@@ -248,13 +150,13 @@ const Banner = (props) => {
             <div className="left_n_right">
               <button
                 className="btn btn_style_none btn_left"
-                onClick={moveBannerLeft.run}
+                onClick={moveBannerLeft}
               >
                 <span className="oi oi-chevron-left"></span>
               </button>
               <button
                 className="btn btn_style_none btn_right"
-                onClick={moveBannerRight.run}
+                onClick={moveBannerRight}
               >
                 <span className="oi oi-chevron-right"></span>
               </button>
