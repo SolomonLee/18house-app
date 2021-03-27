@@ -109,11 +109,8 @@ const Banner = (props) => {
 
     setMoveBannerRight({
       run: () => {
-        // console.log(banners, nowBanner, prveBanner);
-        // console.log("go right banners", banners);
         for (let i = banners.length - 1; i >= 0; i--) {
           if (banners[i].classNames.now) {
-            // console.log("go right ", i, banners.length - 1);
             if (i == banners.length - 1) {
               [nowBanner, prveBanner] = _moveBanner(
                 banners,
