@@ -190,11 +190,11 @@ body .App .btn {
 
 .content {
   min-height: calc(100vh - 400px);
-} // btn
+} // content
 
 .text_title {
   letter-spacing: 1px;
-}
+} // text_title
 // ===== BASIC ELEMENT : END =====
 
 // ===== BOX =====
@@ -752,7 +752,7 @@ body .App .btn {
       position: absolute;
     }
   }
-}
+} // fill_item
 
 .input_item {
   margin-bottom: 0;
@@ -839,7 +839,172 @@ body .App .btn {
   textarea {
     height: 120px;
   }
-}
+} // input_item
+
+.loading_item {
+  height: 50vh;
+  line-height: 50vh;
+  min-height: inherit;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  background: #fff7f7;
+  text-align: center;
+
+  &[type="web"] {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: #fafff7;
+    z-index: 200;
+  }
+
+  > .item_content {
+    display: inline-block;
+    width: 100%;
+    line-height: 26px;
+
+    .loading_animation {
+      height: 80px;
+      margin-bottom: 20px;
+
+      @mixin infinite_animation(
+        $animationName,
+        $color1,
+        $color2,
+        $color3,
+        $color4,
+        $color5,
+        $isEven: false
+      ) {
+        $maxhight: 100%;
+        $minhight: 30%;
+        @keyframes #{$animationName} {
+          0% {
+            background-color: #{$color1};
+            @if $isEven == true {
+              height: #{$maxhight};
+            } @else if $isEven == false {
+              height: #{$minhight};
+            }
+          }
+          20% {
+            background-color: #{$color2};
+          }
+          40% {
+            background-color: #{$color3};
+          }
+          50% {
+            @if $isEven == true {
+              height: #{$minhight};
+            } @else if $isEven == false {
+              height: #{$maxhight};
+            }
+          }
+          60% {
+            background-color: #{$color4};
+          }
+          80% {
+            background-color: #{$color5};
+          }
+          100% {
+            background-color: #{$color1};
+            @if $isEven == true {
+              height: #{$maxhight};
+            } @else if $isEven == false {
+              height: #{$minhight};
+            }
+          }
+        }
+
+        animation-name: #{$animationName};
+        animation-duration: 6s;
+        animation-iteration-count: infinite;
+      }
+
+      span {
+        padding: 0 5px;
+        height: inherit;
+        line-height: 80px;
+
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 12px;
+          height: inherit;
+          background: #66666655;
+          border-radius: 20px;
+          vertical-align: middle;
+        }
+
+        &.l1:before {
+          @include infinite_animation(
+            "loading_l1",
+            "#ff002f",
+            "#9100ff",
+            "#00f3ff",
+            "#33ff00",
+            "#ffe000"
+          );
+        }
+
+        &.l2:before {
+          @include infinite_animation(
+            "loading_l2",
+            "#9100ff",
+            "#00f3ff",
+            "#33ff00",
+            "#ffe000",
+            "#ff002f",
+            true
+          );
+        }
+
+        &.l3:before {
+          @include infinite_animation(
+            "loading_l3",
+            "#00f3ff",
+            "#33ff00",
+            "#ffe000",
+            "#ff002f",
+            "#9100ff"
+          );
+        }
+
+        &.l4:before {
+          @include infinite_animation(
+            "loading_l4",
+            "#33ff00",
+            "#ffe000",
+            "#ff002f",
+            "#9100ff",
+            "#00f3ff",
+            true
+          );
+        }
+
+        &.l5:before {
+          @include infinite_animation(
+            "loading_l5",
+            "#ffe000",
+            "#ff002f",
+            "#9100ff",
+            "#00f3ff",
+            "#33ff00"
+          );
+        }
+      }
+    }
+
+    p {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 4px;
+    }
+  }
+} // loading_item
 
 // ===== ITEM : END =====
 

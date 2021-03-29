@@ -2,39 +2,41 @@ import { useState, useEffect } from "react";
 
 import Banner from "../Banner";
 import ListItem from "../ListItem";
+import Loading, { setLoadingPromise } from "../loading";
 
 import { getBanner, getAboutInfo } from "../../apis/apiContent";
 
 const PageAbout = (props) => {
   const [banner, setBanner] = useState([]);
   const [aboutInfo, setAboutInfo] = useState({});
+  const [onloading, setOnloading] = useState(true);
 
   useEffect(() => {
     // LOAD DATA
     let _isMounted = true;
-
-    getBanner("About").then(
-      (_banners) => {
-        if (_isMounted) setBanner(_banners);
-      },
+    setLoadingPromise(
+      [
+        getBanner("About").then((_banners) => {
+          if (_isMounted) setBanner(_banners);
+        }),
+        getAboutInfo().then((_aboutInfo) => {
+          if (_isMounted) setAboutInfo(_aboutInfo);
+        }),
+      ],
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
+      },
+      () => {
+        _isMounted ? setOnloading(false) : null;
       }
     );
 
-    getAboutInfo().then(
-      (_aboutInfo) => {
-        if (_isMounted) setAboutInfo(_aboutInfo);
-      },
-      () => {
-        alert("這個網站發生一些錯誤, 請聯絡官方人員。");
-      }
-    );
     return () => (_isMounted = false);
   }, []);
 
   return (
     <div className="content PageAbout">
+      <Loading loading={onloading} />
       <div className="container-fluid">
         <div className="row">
           <div className="w-100">

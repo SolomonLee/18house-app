@@ -37,7 +37,15 @@ export const banners = [
 ];
 
 export const albumTypes = [
-  { title: "類型", contents: ["類型一", "類型二", "類型三"] },
+  {
+    title: "類型",
+    gtid: 1,
+    contents: [
+      { id: 1, title: "類型一" },
+      { id: 2, title: "類型二" },
+      { id: 3, title: "類型三" },
+    ],
+  },
 ];
 
 export const albums = [

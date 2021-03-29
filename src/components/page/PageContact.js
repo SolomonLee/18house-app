@@ -6,25 +6,31 @@ import { getContactDatas_ListItem } from "../../adapters/atContent";
 import ListItem from "../ListItem";
 import FormContact from "../combo/FormContact";
 import GoogleMapIframe from "../GoogleMapIframe";
+import Loading from "../loading";
 
 const PageContact = () => {
   const [contactDatas, setContactDatas] = useState([]);
   const [googleMapUrl, setGoogleMapUrl] = useState("");
+  const [onloading, setOnloading] = useState(true);
 
   useEffect(() => {
     // LOAD DATA
     let _isMounted = true;
-    getContactDatas().then(
-      (_contactDatas) => {
-        if (_isMounted) {
-          setContactDatas(getContactDatas_ListItem(_contactDatas.textInfo));
-          setGoogleMapUrl(_contactDatas.googleMapUrl);
+    getContactDatas()
+      .then(
+        (_contactDatas) => {
+          if (_isMounted) {
+            setContactDatas(getContactDatas_ListItem(_contactDatas.textInfo));
+            setGoogleMapUrl(_contactDatas.googleMapUrl);
+          }
+        },
+        () => {
+          alert("這個網站發生一些錯誤, 請聯絡官方人員。");
         }
-      },
-      () => {
-        alert("這個網站發生一些錯誤, 請聯絡官方人員。");
-      }
-    );
+      )
+      .finally(() => {
+        if (_isMounted) setOnloading(false);
+      });
 
     return () => (_isMounted = false);
   }, []);
@@ -40,6 +46,7 @@ const PageContact = () => {
 
   return (
     <div className="content PageContact">
+      <Loading loading={onloading} />
       <div className="container">
         <div className="row">
           <div className="col">

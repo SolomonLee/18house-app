@@ -18,6 +18,7 @@ const CollapseItem = (props) => {
   const handlerCollapse = () => {
     setCollapseIsOpen(!collapseIsOpen);
   };
+  console.log(props.datas);
 
   return (
     <div className={classNames(objClassNames)}>

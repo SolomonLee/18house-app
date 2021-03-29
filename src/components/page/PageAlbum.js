@@ -1,24 +1,32 @@
 import { useState, useEffect } from "react";
 
-import ListItem from "../ListItem";
+import FliterBox from "../combo/FliterBox";
 import RadioItem from "../RadioItem";
+import Loading, { setLoadingPromise } from "../loading";
 
 import { getAlbums, getAlbumTypes } from "../../apis/apiAlbums";
+import { getAlbumTypes_FliterBox } from "../../adapters/atContent";
 
 const PageAlbum = (props) => {
-  const [banner, setBanner] = useState([]);
-  const [aboutInfo, setAboutInfo] = useState({});
+  const [albumFliters, setAlbumFliters] = useState({});
+  const [onloading, setOnloading] = useState(true);
 
   useEffect(() => {
     // LOAD DATA
     let _isMounted = true;
-
-    getAlbumTypes().then(
-      (_albumTypes) => {
-        if (_isMounted) setAboutInfo(_albumTypes);
-      },
+    setLoadingPromise(
+      [
+        getAlbumTypes().then((_albumTypes) => {
+          if (_isMounted) {
+            setAlbumFliters(getAlbumTypes_FliterBox(_albumTypes));
+          }
+        }),
+      ],
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
+      },
+      () => {
+        _isMounted ? setOnloading(false) : null;
       }
     );
 
@@ -27,23 +35,17 @@ const PageAlbum = (props) => {
 
   return (
     <div className="content PageAlbum">
+      <Loading loading={onloading} />
       <div className="container-fluid">
         <div className="row">
-          <div className="w-100">
-            {/* <Banner datas={banner} objectFit="cover" /> */}
+          <div className="col-3">
+            <FliterBox
+              tkey="pageAlbumFliter"
+              datas={albumFliters}
+              setValue={setAlbumFliters}
+            />
           </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div className="_box">
-              <div className="box_title">{aboutInfo.title}</div>
-              <div className="box_content">
-                <ListItem datas={aboutInfo.contents} />
-              </div>
-            </div>
-          </div>
+          <div className="col-9">999</div>
         </div>
       </div>
     </div>

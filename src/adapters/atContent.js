@@ -25,3 +25,19 @@ export const getContactDatas_ListItem = (datas) => {
     };
   });
 };
+
+export const getAlbumTypes_FliterBox = (datas) => {
+  return datas.map((collapse) => {
+    collapse.contents.unshift({ id: 0, title: "All" });
+    return {
+      title: collapse.title,
+      content: collapse.contents.map((radio) => {
+        return {
+          title: radio.title,
+          tid: { groupId: collapse.gtid, id: radio.id },
+          content: { val: 0 },
+        };
+      }),
+    };
+  });
+};

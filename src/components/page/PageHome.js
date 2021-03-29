@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import Banner from "../Banner";
 import SlideList from "../combo/SlideList";
+import Loading, { setLoadingPromise } from "../loading";
 
 import { getBanner, getHomeShowCase } from "../../apis/apiContent";
 import { getHomeShowCase_SlideList } from "../../adapters/atContent";
@@ -10,25 +11,27 @@ import { getHomeShowCase_SlideList } from "../../adapters/atContent";
 const PageHome = (props) => {
   const [banner, setBanner] = useState([]);
   const [showCase, setShowCase] = useState([]);
+  const [onloading, setOnloading] = useState(true);
 
   useEffect(() => {
+    setOnloading(true);
+
     // LOAD DATA
     let _isMounted = true;
-    getBanner("Home").then(
-      (_banner) => {
-        if (_isMounted) setBanner(_banner);
-      },
+    setLoadingPromise(
+      [
+        getBanner("Home").then((_banner) => {
+          if (_isMounted) setBanner(_banner);
+        }),
+        getHomeShowCase().then((_showCase) => {
+          if (_isMounted) setShowCase(getHomeShowCase_SlideList(_showCase));
+        }),
+      ],
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
-      }
-    );
-
-    getHomeShowCase().then(
-      (_showCase) => {
-        if (_isMounted) setShowCase(getHomeShowCase_SlideList(_showCase));
       },
       () => {
-        alert("這個網站發生一些錯誤, 請聯絡官方人員。");
+        _isMounted ? setOnloading(false) : null;
       }
     );
 
@@ -37,6 +40,7 @@ const PageHome = (props) => {
 
   return (
     <div className="content PageHome">
+      <Loading loading={onloading} />
       <div className="container-fluid">
         <div className="row">
           <div className="w-100">

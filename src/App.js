@@ -13,6 +13,7 @@ import PageContact from "./components/page/PageContact";
 import Broadcast from "./components/Broadcast";
 import LinkList from "./components/LinkList";
 import Split from "./components/Split";
+import Loading from "./components/loading";
 
 import { getMenus, getSubMenus, getBroadcast } from "./apis/apiContent";
 import { getMenus_LinkList } from "./adapters/atContent";
@@ -21,9 +22,10 @@ function App() {
   const [menus, setMenus] = useState([]);
   const [subMenus, setSubMenus] = useState([]);
   const [broadcast, setBroadcast] = useState([]);
+  const [onloading, setOnloading] = useState(true);
 
   useEffect(() => {
-    getBroadcast().then(
+    const loadBroadcast = getBroadcast().then(
       (_broadcast) => {
         setBroadcast(_broadcast);
       },
@@ -32,7 +34,7 @@ function App() {
       }
     );
 
-    getMenus().then(
+    const loadMenus = getMenus().then(
       (_menus) => {
         setMenus(getMenus_LinkList(_menus));
       },
@@ -41,7 +43,7 @@ function App() {
       }
     );
 
-    getSubMenus().then(
+    const loadSubMenus = getSubMenus().then(
       (_subMenus) => {
         setSubMenus(getMenus_LinkList(_subMenus));
       },
@@ -49,11 +51,20 @@ function App() {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
       }
     );
+
+    Promise.all([loadBroadcast, loadMenus, loadSubMenus])
+      .catch(() => {
+        alert("這個網站發生一些錯誤, 請聯絡官方人員。");
+      })
+      .finally(() => {
+        setOnloading(false);
+      });
   }, []);
 
   return (
     <Router>
       <div className="App">
+        <Loading loading={onloading} content="loading" type="web" />
         <header>
           <Broadcast content={broadcast} />
           <div className="title">
