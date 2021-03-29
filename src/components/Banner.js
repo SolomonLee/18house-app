@@ -61,16 +61,25 @@ const Banner = (props) => {
     setBannerDatas(bannerDatas);
     setBannerIndex(0);
 
-    setTimeout(() => {
+    const _tempTimer = setTimeout(() => {
       setBannerAction("start");
     }, 1000);
+
+    return () => {
+      clearTimeout(_tempTimer);
+    };
   }, [props.datas]);
 
   useEffect(() => {
-    clearTimeout(timerAutoRunBanner.current);
+    const _tempTimer = clearTimeout(timerAutoRunBanner.current);
     timerAutoRunBanner.current = setTimeout(() => {
       moveBannerRight();
     }, autoMoveBannerDuration);
+
+    return () => {
+      clearTimeout(_tempTimer);
+      clearTimeout(timerAutoRunBanner.current);
+    };
   }, [bannerIndex]);
 
   const datas = bannerDatas.map((data) => {

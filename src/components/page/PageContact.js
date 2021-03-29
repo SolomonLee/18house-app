@@ -12,15 +12,21 @@ const PageContact = () => {
   const [googleMapUrl, setGoogleMapUrl] = useState("");
 
   useEffect(() => {
+    // LOAD DATA
+    let _isMounted = true;
     getContactDatas().then(
       (_contactDatas) => {
-        setContactDatas(getContactDatas_ListItem(_contactDatas.textInfo));
-        setGoogleMapUrl(_contactDatas.googleMapUrl);
+        if (_isMounted) {
+          setContactDatas(getContactDatas_ListItem(_contactDatas.textInfo));
+          setGoogleMapUrl(_contactDatas.googleMapUrl);
+        }
       },
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
       }
     );
+
+    return () => (_isMounted = false);
   }, []);
 
   let i = 0;

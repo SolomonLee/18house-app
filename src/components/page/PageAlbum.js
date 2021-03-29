@@ -10,14 +10,19 @@ const PageAlbum = (props) => {
   const [aboutInfo, setAboutInfo] = useState({});
 
   useEffect(() => {
+    // LOAD DATA
+    let _isMounted = true;
+
     getAlbumTypes().then(
       (_albumTypes) => {
-        setAboutInfo(_albumTypes);
+        if (_isMounted) setAboutInfo(_albumTypes);
       },
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
       }
     );
+
+    return () => (_isMounted = false);
   }, []);
 
   return (

@@ -12,9 +12,11 @@ const PageHome = (props) => {
   const [showCase, setShowCase] = useState([]);
 
   useEffect(() => {
+    // LOAD DATA
+    let _isMounted = true;
     getBanner("Home").then(
       (_banner) => {
-        setBanner(_banner);
+        if (_isMounted) setBanner(_banner);
       },
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
@@ -23,12 +25,14 @@ const PageHome = (props) => {
 
     getHomeShowCase().then(
       (_showCase) => {
-        setShowCase(getHomeShowCase_SlideList(_showCase));
+        if (_isMounted) setShowCase(getHomeShowCase_SlideList(_showCase));
       },
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
       }
     );
+
+    return () => (_isMounted = false);
   }, []);
 
   return (

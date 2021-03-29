@@ -10,9 +10,12 @@ const PageAbout = (props) => {
   const [aboutInfo, setAboutInfo] = useState({});
 
   useEffect(() => {
+    // LOAD DATA
+    let _isMounted = true;
+
     getBanner("About").then(
       (_banners) => {
-        setBanner(_banners);
+        if (_isMounted) setBanner(_banners);
       },
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
@@ -21,12 +24,13 @@ const PageAbout = (props) => {
 
     getAboutInfo().then(
       (_aboutInfo) => {
-        setAboutInfo(_aboutInfo);
+        if (_isMounted) setAboutInfo(_aboutInfo);
       },
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
       }
     );
+    return () => (_isMounted = false);
   }, []);
 
   return (

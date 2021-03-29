@@ -384,6 +384,7 @@ body .App .btn {
 
 .slide_list_box {
   padding: 0 30px;
+  position: relative;
 
   @include w-xl {
     padding: 0 0;
@@ -398,6 +399,7 @@ body .App .btn {
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;
+    scroll-behavior: smooth;
 
     > .showcase_item {
       flex: 0 0 25%;
@@ -434,6 +436,35 @@ body .App .btn {
     margin-top: 50px;
     padding-top: 15px;
     text-align: center;
+
+    .control {
+      .btn_left,
+      .btn_right {
+        position: absolute;
+        top: 45%;
+        background-color: #ffffff;
+        color: #666;
+        height: 42px;
+        width: 42px;
+        border-radius: 30px;
+        line-height: 42px;
+        text-align: center;
+        opacity: 0.3;
+
+        &:hover {
+          color: #555;
+          opacity: 0.8;
+        }
+      }
+
+      .btn_left {
+        left: -4px;
+      }
+
+      .btn_right {
+        right: -4px;
+      }
+    }
   }
 } // slide_list_box
 
