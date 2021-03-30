@@ -57,7 +57,7 @@ export const albums = [
     subTitle: "I'm PRODUCT1",
     url: "/",
     showAtHome: true,
-    type: "類型一",
+    1: 1,
   },
   {
     pid: 2,
@@ -67,7 +67,7 @@ export const albums = [
     subTitle: "I'm PRODUCT2",
     url: "/",
     showAtHome: true,
-    type: "類型一",
+    1: 1,
   },
   {
     pid: 3,
@@ -77,7 +77,7 @@ export const albums = [
     subTitle: "I'm PRODUCT3",
     url: "/",
     showAtHome: true,
-    type: "類型一",
+    1: 1,
   },
   {
     pid: 4,
@@ -87,7 +87,7 @@ export const albums = [
     subTitle: "I'm PRODUCT4",
     url: "/",
     showAtHome: true,
-    type: "類型二",
+    1: 2,
   },
   {
     pid: 5,
@@ -97,7 +97,7 @@ export const albums = [
     subTitle: "I'm PRODUCT5",
     url: "/",
     showAtHome: true,
-    type: "類型二",
+    1: 2,
   },
   {
     pid: 6,
@@ -107,7 +107,7 @@ export const albums = [
     subTitle: "I'm PRODUCT6",
     url: "/",
     showAtHome: false,
-    type: "類型二",
+    1: 2,
   },
   {
     pid: 7,
@@ -117,7 +117,7 @@ export const albums = [
     subTitle: "I'm PRODUCT7",
     url: "/",
     showAtHome: false,
-    type: "類型三",
+    1: 3,
   },
   {
     pid: 8,
@@ -127,7 +127,7 @@ export const albums = [
     subTitle: "I'm PRODUCT8",
     url: "/",
     showAtHome: false,
-    type: "類型三",
+    1: 3,
   },
   {
     pid: 9,
@@ -137,7 +137,7 @@ export const albums = [
     subTitle: "I'm PRODUCT9",
     url: "/",
     showAtHome: false,
-    type: "類型三",
+    1: 3,
   },
   {
     pid: 10,
@@ -147,7 +147,7 @@ export const albums = [
     subTitle: "I'm PRODUCT10",
     url: "/",
     showAtHome: false,
-    type: "類型三",
+    1: 3,
   },
 ];
 
@@ -200,4 +200,31 @@ export const contentMenu = [
   { tag: "Contact", title: "聯絡我們", url: "/Contact" },
 ];
 
-export const contentSubMenu = [{ tag: "FAQ", title: "FAQ", url: "/" }];
+export const contentSubMenu = [{ tag: "FAQ", title: "FAQ", url: "/FAQ" }];
+
+export const contentCharge = [
+  {
+    title: "方案一",
+    content: [
+      "方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是方案一的所需費用是",
+      "但是假設AAA假設AAA假設AAA假設AAA假設AAA",
+    ],
+  },
+  {
+    title: "方案二",
+    content: [
+      "相較方案一 方案二的所需費用是...相較方案一 方案二的所需費用是...相較方案一 方案二的所需費用是...相較方案一 方案二的所需費用是...相較方案一 方案二的所需費用是...相較方案一 方案二的所需費用是...",
+    ],
+  },
+];
+
+export const contentSchedule = [{ img: "/img/Schedule.png" }];
+
+export const contentFAQ = [
+  {
+    id: 1,
+    title: "忘記洗衣服該怎辦呢?",
+    contents: ["把衣服丟進洗衣機", "等1個小時就洗好了"],
+  },
+  { id: 2, title: "沒有洗衣機該怎麼辦呢?", contents: ["買洗衣機"] },
+];

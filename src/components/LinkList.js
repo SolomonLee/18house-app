@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import classNames from "classnames";
 
 // props { styleClass[string] , title[string], datas[obj]{ url[string], content[string]}}
 const LinkList = (props) => {
@@ -19,11 +18,8 @@ const LinkList = (props) => {
     }
   });
 
-  let _objClassName = { list_item: true };
-  props?.styleClass ? (_objClassName[props.styleClass] = true) : null;
-
   return (
-    <div className={classNames(_objClassName)}>
+    <div className="list_item" stylenum={props?.styleClass}>
       {props?.title ? <div className="item_title">{props.title}</div> : null}
       <div className="item_content">
         <ul>{datas}</ul>

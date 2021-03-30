@@ -26,16 +26,20 @@ export const getContactDatas_ListItem = (datas) => {
   });
 };
 
-export const getAlbumTypes_FliterBox = (datas) => {
+export const getAlbumTypes_FliterBox = (datas, selector = {}) => {
   return datas.map((collapse) => {
+    if (!selector?.[collapse.gtid]) selector[collapse.gtid] = { val: 0 };
+
     collapse.contents.unshift({ id: 0, title: "All" });
     return {
       title: collapse.title,
+      gid: collapse.gtid,
+      select: selector[collapse.gtid],
       content: collapse.contents.map((radio) => {
         return {
+          id: radio.id,
           title: radio.title,
-          tid: { groupId: collapse.gtid, id: radio.id },
-          content: { val: 0 },
+          content: selector[collapse.gtid],
         };
       }),
     };

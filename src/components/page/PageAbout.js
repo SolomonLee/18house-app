@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import Banner from "../Banner";
 import ListItem from "../ListItem";
-import Loading, { setLoadingPromise } from "../loading";
+import Loading, { setLoadingPromise } from "../Loading";
 
 import { getBanner, getAboutInfo } from "../../apis/apiContent";
 

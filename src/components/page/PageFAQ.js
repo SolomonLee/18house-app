@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import Loading from "../Loading";
-import InfoItem from "../InfoItem";
-import { getChargeDatas } from "../../apis/apiContent";
+import CollapseItem from "../CollapseItem";
+import { getFAQ } from "../../apis/apiContent";
 
-const PageCharge = (props) => {
-  const [chargeDatas, setChargeDatas] = useState([]);
+const PageFAQ = (props) => {
+  const [contentFAQs, setContentFAQs] = useState([]);
   const [onloading, setOnloading] = useState(true);
 
   useEffect(() => {
     // LOAD DATA
     let _isMounted = true;
-    getChargeDatas()
+    getFAQ()
       .then(
-        (_chargeDatas) => {
+        (_contentFAQs) => {
           if (_isMounted) {
-            setChargeDatas(_chargeDatas);
+            setContentFAQs(_contentFAQs);
           }
         },
         () => {
@@ -28,24 +28,30 @@ const PageCharge = (props) => {
     return () => (_isMounted = false);
   }, []);
 
-  let i = 0;
-  const _datas = chargeDatas.map((data) => {
-    const key = "PageCharge_" + (++i).toString();
+  const _datas = contentFAQs.map((data) => {
+    const key = "PageFAQ_" + data.id.toString();
+
+    let contents = [];
+    data.contents.forEach((content) => {
+      contents.push(<p key={key + content}>{content}</p>);
+    });
     return (
-      <div key={key} className="row">
-        <div className="col">
-          <InfoItem title={data.title} content={data.content} />
-        </div>
-      </div>
+      <CollapseItem
+        key={key}
+        title={data.title}
+        datas={contents}
+        styleClass="topic"
+        defualtCollapse={false}
+      />
     );
   });
 
   return (
-    <div className="content PageCharge">
+    <div className="content PageFAQ">
       <Loading loading={onloading} />
       <div className="container">
         <div className="message_box">
-          <div className="box_title">收費方式</div>
+          <div className="box_title">FAQ</div>
           <div className="box_content">{_datas}</div>
         </div>
       </div>
@@ -53,4 +59,4 @@ const PageCharge = (props) => {
   );
 };
 
-export default PageCharge;
+export default PageFAQ;

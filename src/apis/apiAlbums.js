@@ -1,9 +1,11 @@
 import * as testData from "./testData";
 
 const _testPost = (_data, _returnTime = 500) => {
+  const _dataClone = JSON.parse(JSON.stringify(_data));
+
   return new Promise((resolve) => {
     setTimeout(() => {
-      return resolve(_data);
+      return resolve(_dataClone);
     }, _returnTime);
   });
 };
@@ -12,11 +14,14 @@ export const getAlbumTypes = () => {
   return _testPost(testData.albumTypes);
 };
 
-export const getAlbums = (type) => {
+export const getAlbums = (_fliter) => {
   return _testPost(
     testData.albums.filter((album) => {
-      if (album.type === type) return true;
-      return false;
+      for (var name in _fliter) {
+        if (!_fliter[name].val) continue;
+        if (_fliter[name].val != album[name]) return false;
+      }
+      return true;
     })
   );
 };

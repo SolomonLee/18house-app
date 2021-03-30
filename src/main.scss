@@ -134,11 +134,37 @@ header {
       margin: -60px 0 -60px -60px;
     }
   }
+
+  @include w-xs() {
+    .title {
+      font-size: 30px;
+      padding-top: 15px;
+      margin-bottom: 35px;
+
+      img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
 } // header
 
 footer {
   margin-top: 80px;
   padding-bottom: 50px;
+
+  .by {
+    margin-top: 50px;
+    margin-bottom: -50px;
+    background-color: #ccc;
+    color: #fff;
+    padding: 5px;
+    font-size: 14px;
+  }
+}
+
+img {
+  max-width: 100%;
 }
 // ===== TAG : END =====
 
@@ -492,6 +518,148 @@ body .App .btn {
   }
 } // google_map_box
 
+.filter_box {
+  text-align: left;
+
+  > .box_title {
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  > .box_content {
+    > .collapse_item {
+      padding-top: 26px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #ccc;
+    }
+  }
+} // filter_box
+
+.showcase_box {
+  .loading_item {
+    height: 70vh;
+  }
+
+  .box_content {
+    display: grid;
+    grid-gap: 28px;
+
+    @include w-lg() {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include w-md-lg() {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include w-md() {
+      .showcase_item {
+        img {
+          height: 300px;
+        }
+      }
+    }
+
+    @include w-sm-md() {
+      grid-template-columns: repeat(2, 1fr);
+
+      .showcase_item {
+        img {
+          height: 200px;
+        }
+      }
+    }
+    @include w-xs() {
+      grid-template-columns: repeat(1, 1fr);
+
+      .showcase_item {
+        img {
+          height: 150px;
+        }
+      }
+    }
+
+    .showcase_item {
+      img {
+        object-fit: contain;
+      }
+    }
+  }
+} // showcase_box
+
+.socialflow_box {
+  > .box_content {
+    .btn_link {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      padding: 0;
+
+      > img {
+        margin: -4px 0 0 0;
+      }
+    }
+  }
+
+  &[position="left"] {
+    > .box_content {
+      position: fixed;
+      right: 15px;
+      top: 58%;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+
+      .btn_link {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin-bottom: 5px;
+
+        @include easy_animation(
+          "socialflow_box_pleft_transform",
+          "transform",
+          "translate(-120px, 180px)",
+          "translate(0px, 00px)",
+          0.8s
+        );
+      }
+
+      // @include easy_animation(
+      //   "socialflow_box_pleft_top",
+      //   "top",
+      //   65%,
+      //   58%,
+      //   0.5s
+      // );
+
+      //       $animationName,
+      //   $styleName,
+      //   $start,
+      //   $end,
+      //   $duration,
+      //   $iteration-count: 1
+      // )
+    }
+  }
+
+  &[position="bottom"] {
+    .btn_link {
+      @include easy_animation(
+        "socialflow_box_pbottom_transform",
+        "transform",
+        "translate(120px, -80px)",
+        "translate(0, 0px)",
+        0.8s
+      );
+    }
+
+    .btn_link + .btn_link {
+      margin-left: 20px;
+    }
+  }
+} // socialflow_box
+
 // ===== BOX : END =====
 
 // ===== ITEM =====
@@ -524,7 +692,11 @@ body .App .btn {
     @extend %a_clear;
   }
 
-  &.header_menu {
+  &[stylenum="header_menu"] {
+    @include w-xs {
+      margin-bottom: 0;
+    }
+
     li {
       display: inline-block;
     }
@@ -543,6 +715,7 @@ body .App .btn {
       @include w-xs {
         padding: 0 5px;
         margin: 0;
+        font-size: 14px;
       }
 
       &:hover {
@@ -605,7 +778,7 @@ body .App .btn {
 
   $broadcast_item_animation_duration: 1.8s;
 
-  &.active {
+  &[isactive] {
     animation-name: bgChange;
     animation-duration: $broadcast_item_animation_duration;
 
@@ -665,6 +838,15 @@ body .App .btn {
       &.prve {
         opacity: 0;
       }
+    }
+  }
+
+  @include w-xs() {
+    height: 40px;
+    font-size: 16px;
+
+    > .item_content {
+      line-height: 40px;
     }
   }
 } // broadcast_item
@@ -757,7 +939,7 @@ body .App .btn {
 .input_item {
   margin-bottom: 0;
 
-  &.error {
+  &[iserror] {
     > .item_content {
       &:after {
         border-bottom-color: rgb(196, 62, 62);
@@ -859,6 +1041,12 @@ body .App .btn {
     width: 100vw;
     background: #fafff7;
     z-index: 200;
+  }
+
+  & ~ * {
+    .loading_item {
+      display: none;
+    }
   }
 
   > .item_content {
@@ -1006,7 +1194,133 @@ body .App .btn {
   }
 } // loading_item
 
+.collapse_item {
+  &[isopen] {
+    > .item_title::after {
+      content: "-";
+    }
+
+    > .item_content {
+      max-height: 100vh;
+      transition: max-height cubic-bezier(0.81, 0.13, 0.96, 0.57) 1s;
+    }
+  }
+
+  > .item_title {
+    font-size: 20px;
+    padding: 5px 0 18px;
+    cursor: pointer;
+
+    &::after {
+      content: "+";
+      float: right;
+    }
+  }
+
+  > .item_content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height cubic-bezier(0.23, 0.78, 0.38, 1.12) 1s;
+  }
+
+  &[stylenum="topic"] {
+    text-align-last: left;
+    border-bottom: 1px solid #ccc;
+
+    > .item_title {
+      padding: 12px 0 14px;
+    }
+
+    > .item_content {
+      padding-left: 20px;
+    }
+  }
+} // collapse_item
+
+.radio_item {
+  font-size: 16px;
+
+  > .item_content {
+    position: relative;
+  }
+
+  input {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+
+    &:checked {
+      & + span {
+        font-weight: bold;
+      }
+    }
+  }
+} // radio_item
+
+.info_item {
+  border: 3px solid #e4d3c0;
+  padding: 16px 16px 20px;
+  border-radius: 15px;
+  text-align: left;
+
+  > .item_title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 9px;
+    letter-spacing: 2px;
+  }
+
+  > .item_content {
+    padding-left: 20px;
+  }
+} // info_item
+
 // ===== ITEM : END =====
 
 // ===== PAGE =====
+.PageAlbum {
+  .filter_box {
+    padding: 0 15px 0 40px;
+    width: 25%;
+  }
+
+  .showcase_box {
+    padding: 0 40px 0 15px;
+    width: 75%;
+  }
+
+  @include w-md-lg() {
+    .filter_box {
+      width: 35%;
+    }
+
+    .showcase_box {
+      width: 65%;
+    }
+  }
+  @include w-sm-md() {
+    .filter_box {
+      width: 35%;
+    }
+
+    .showcase_box {
+      width: 65%;
+    }
+  }
+
+  @include w-xs() {
+    .filter_box {
+      display: none;
+    }
+    .showcase_box {
+      width: 100%;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}
 // ===== PAGE : END =====

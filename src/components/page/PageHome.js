@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Banner from "../Banner";
 import SlideList from "../combo/SlideList";
-import Loading, { setLoadingPromise } from "../loading";
+import Loading, { setLoadingPromise } from "../Loading";
 
 import { getBanner, getHomeShowCase } from "../../apis/apiContent";
 import { getHomeShowCase_SlideList } from "../../adapters/atContent";

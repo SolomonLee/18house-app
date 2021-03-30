@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-import classNames from "classnames";
-
 // props { styleClass[string] , title[string], datas}
 const CollapseItem = (props) => {
   if (props?.datas == undefined) return null;
@@ -9,19 +7,17 @@ const CollapseItem = (props) => {
   const [collapseIsOpen, setCollapseIsOpen] = useState(
     props?.defualtCollapse || false
   );
-  const [objClassNames, setObjClassName] = useState({ collapse_item: true });
-
-  props?.styleClass
-    ? setObjClassName({ collapse_item: true, [props.styleClass]: true })
-    : null;
 
   const handlerCollapse = () => {
     setCollapseIsOpen(!collapseIsOpen);
   };
-  console.log(props.datas);
 
   return (
-    <div className={classNames(objClassNames)}>
+    <div
+      className="collapse_item"
+      stylenum={props?.styleClass}
+      isopen={collapseIsOpen ? "" : null}
+    >
       <div className="item_title" onClick={handlerCollapse}>
         {props?.title || null}
       </div>

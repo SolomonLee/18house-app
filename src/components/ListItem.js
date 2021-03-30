@@ -4,7 +4,6 @@ import classNames from "classnames";
 const ListItem = (props) => {
   if (props?.datas == undefined) return null;
 
-  console.log("props?.datas", props?.datas);
   let datas = props.datas.map((data) => {
     if (typeof data === "string") {
       if (props?.tkey) return <li key={props.tkey + data}>{data}</li>;

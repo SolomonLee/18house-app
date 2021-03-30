@@ -5,23 +5,20 @@ import RadioGroup from "./RadioGroup";
 
 export const FliterBox = (props) => {
   if (!props?.datas || !Array.isArray(props.datas)) return null;
-  const setValueList = useRef([]);
+  const _datas = [...props.datas];
 
-  useEffect(() => {
-    setValueList.current = [];
-  }, [props.datas]);
-
+  const keys = props.tkey + "_collapse";
   let i = 0;
-  console.log(props.datas);
-  const content = props.datas.map((data) => {
+  const content = _datas.map((data) => {
     i++;
     return (
       <CollapseItem
-        key={props.tkey + "collapse" + (i++).toString()}
+        key={keys + i.toString()}
         title={data.title}
         datas={
           <RadioGroup
-            orgdatas={props.datas}
+            tkey={keys + i.toString() + "_"}
+            orgdatas={_datas}
             datas={data.content}
             setValue={props.setValue}
           />

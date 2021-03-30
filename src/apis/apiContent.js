@@ -1,9 +1,10 @@
 import * as testData from "./testData";
 
 const _testPost = (_data, _returnTime = 500) => {
+  const _dataClone = JSON.parse(JSON.stringify(_data));
   return new Promise((resolve) => {
     setTimeout(() => {
-      return resolve(_data);
+      return resolve(_dataClone);
     }, _returnTime);
   });
 };
@@ -57,3 +58,17 @@ export const getContactDatas = () => {
   return _testPost(testData.contactInfo);
 };
 // Contact : END
+
+// Charge
+export const getChargeDatas = () => {
+  //_contactDatas
+  return _testPost(testData.contentCharge);
+};
+// Charge : END
+
+// FAQ
+export const getFAQ = () => {
+  //_contactDatas
+  return _testPost(testData.contentFAQ);
+};
+// FAQ : END

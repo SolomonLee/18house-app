@@ -1,5 +1,4 @@
 import { useState } from "react";
-import classNames from "classnames";
 import InputItem from "../InputItem";
 
 // props { styleClass[string] , title[string], type[string], data , placeholder[string],
@@ -30,11 +29,8 @@ const FillItem = (props) => {
     props.setValue?.(value);
   };
 
-  let objClassNames = { fill_item: true };
-  if (props?.styleClass) objClassNames[props.styleClass] = true;
-
   return (
-    <div className={classNames(objClassNames)}>
+    <div className="fill_item" stylenum={props?.styleClass}>
       {props?.title ? <div className="item_title">{props.title}</div> : null}
       <div className="item_content">
         <InputItem

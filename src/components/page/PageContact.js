@@ -6,7 +6,7 @@ import { getContactDatas_ListItem } from "../../adapters/atContent";
 import ListItem from "../ListItem";
 import FormContact from "../combo/FormContact";
 import GoogleMapIframe from "../GoogleMapIframe";
-import Loading from "../loading";
+import Loading from "../Loading";
 
 const PageContact = () => {
   const [contactDatas, setContactDatas] = useState([]);

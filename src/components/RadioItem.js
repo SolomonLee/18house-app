@@ -1,40 +1,20 @@
-import React, { useState } from "react";
-import classNames from "classnames";
-
-const inputTypes = ["text", "number", "password", "radio", "checkBox"];
-
-const InputItem = (props) => {
-  const [showPlaceholder, setShowPlaceholder] = useState(
-    props?.placeholder ? (props?.defaultValue ? false : true) : false
-  );
-
-  if (!props?.type) return null;
-
-  const handlerChange = (e) => {
-    if (e.target.value == "") setShowPlaceholder(true);
-    props.setValue?.(e.target.value);
+const RadioItem = (props) => {
+  const handlerChange = () => {
+    props.setValue?.(props.value);
   };
 
   return (
-    <div className="input_item" error={props?.error}>
+    <div className="radio_item">
       <div className="item_content">
-        {inputTypes.includes(props.type) ? (
-          <input
-            type={props.type}
-            onChange={handlerChange}
-            defaultValue={props?.defaultValue ? props.defaultValue : ""}
-          />
-        ) : props.type == "textArea" ? (
-          <textarea onChange={handlerChange}>
-            {props?.defaultValue ? props.defaultValue : null}
-          </textarea>
-        ) : null}
-        {showPlaceholder ? (
-          <div className="placeholder">{props.placeholder}</div>
-        ) : null}
+        <input
+          type="radio"
+          onChange={handlerChange}
+          checked={props.value == props.groupvalue.val}
+        />
+        <span>{props.content}</span>
       </div>
     </div>
   );
 };
 
-export default InputItem;
+export default RadioItem;

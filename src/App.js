@@ -9,11 +9,13 @@ import PageAbout from "./components/page/PageAbout";
 import PageSchedule from "./components/page/PageSchedule";
 import PageCharge from "./components/page/PageCharge";
 import PageContact from "./components/page/PageContact";
+import PageFAQ from "./components/page/PageFAQ";
 
 import Broadcast from "./components/Broadcast";
 import LinkList from "./components/LinkList";
 import Split from "./components/Split";
-import Loading from "./components/loading";
+import Loading from "./components/Loading";
+import SocialFlowBox from "./components/SocialFlowBox";
 
 import { getMenus, getSubMenus, getBroadcast } from "./apis/apiContent";
 import { getMenus_LinkList } from "./adapters/atContent";
@@ -91,6 +93,9 @@ function App() {
           <Route exact path="/Contact">
             <PageContact />
           </Route>
+          <Route exact path="/FAQ">
+            <PageFAQ />
+          </Route>
         </Switch>
         <footer>
           <Split content="熊村莊" />
@@ -103,7 +108,9 @@ function App() {
                   tkey="footerMainMenu"
                 />
               </div>
-              <div className="col-md-4"></div>
+              <div className="col-md-4">
+                <SocialFlowBox />
+              </div>
               <div className="col-md-4">
                 <LinkList
                   styleClass="footer_menu"
@@ -113,6 +120,7 @@ function App() {
               </div>
             </div>
           </div>
+          <p className="by">2021 by Solomon</p>
         </footer>
       </div>
     </Router>

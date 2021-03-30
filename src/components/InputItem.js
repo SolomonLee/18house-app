@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import classNames from "classnames";
 
 const inputTypes = ["text", "number", "password", "radio", "checkBox"];
 
@@ -15,13 +14,8 @@ const InputItem = (props) => {
     props.setValue?.(e.target.value);
   };
 
-  const objClassNames = {
-    input_item: true,
-    error: props?.error || false,
-  };
-
   return (
-    <div className={classNames(objClassNames)}>
+    <div className="input_item" iserror={props?.error ? "" : null || null}>
       <div className="item_content">
         {inputTypes.includes(props.type) ? (
           <input
