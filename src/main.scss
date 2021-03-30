@@ -216,6 +216,7 @@ body .App .btn {
 
 .content {
   min-height: calc(100vh - 400px);
+  position: relative;
 } // content
 
 .text_title {
@@ -226,6 +227,7 @@ body .App .btn {
 // ===== BOX =====
 [class$="_box"] {
   margin-bottom: 20px;
+  position: relative;
 
   > .box_title {
     padding-top: 50px;
@@ -1024,14 +1026,16 @@ body .App .btn {
 } // input_item
 
 .loading_item {
+  width: 100%;
   height: 50vh;
-  line-height: 50vh;
   min-height: inherit;
+  line-height: 50vh;
+  text-align: center;
+  background: #fff7f7;
   position: absolute;
   z-index: 100;
-  width: 100%;
-  background: #fff7f7;
-  text-align: center;
+  left: 0;
+  top: 0;
 
   &[type="web"] {
     position: fixed;

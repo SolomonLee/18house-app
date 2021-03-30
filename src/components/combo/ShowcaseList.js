@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ShowcaseItem from "../ShowcaseItem";
 import Loading from "../Loading";
 
