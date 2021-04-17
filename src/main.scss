@@ -662,6 +662,19 @@ body .App .btn {
   }
 } // socialflow_box
 
+.album_box {
+  & > .box_title {
+    img {
+      height: 450px;
+      max-height: 60vh;
+    }
+  }
+  & > .box_content {
+    p {
+    }
+  }
+} // album_box
+
 // ===== BOX : END =====
 
 // ===== ITEM =====
