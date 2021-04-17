@@ -3,8 +3,6 @@ import Loading from "../Loading";
 import CollapseItem from "../CollapseItem";
 import { getFAQ } from "../../apis/apiContent";
 
-import TempComponent from "../../temp/tempComponent";
-
 const PageFAQ = (props) => {
   const [contentFAQs, setContentFAQs] = useState([]);
   const [onloading, setOnloading] = useState(true);
@@ -30,7 +28,7 @@ const PageFAQ = (props) => {
     return () => (_isMounted = false);
   }, []);
 
-  const _datas = contentFAQs.map((data, index) => {
+  const datas = contentFAQs.map((data, index) => {
     const key = "PageFAQ_" + index.toString();
 
     let contents = [];
@@ -41,10 +39,11 @@ const PageFAQ = (props) => {
       <CollapseItem
         key={key}
         title={data.title}
-        datas={contents}
         styleClass="topic"
         defualtCollapse={false}
-      />
+      >
+        {contents}
+      </CollapseItem>
     );
   });
 
@@ -54,11 +53,9 @@ const PageFAQ = (props) => {
       <div className="container">
         <div className="message_box">
           <div className="box_title">FAQ</div>
-          <div className="box_content">{_datas}</div>
+          <div className="box_content">{datas}</div>
         </div>
       </div>
-      <TempComponent />
-      <TempComponent />
     </div>
   );
 };

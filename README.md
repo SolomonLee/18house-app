@@ -18,8 +18,8 @@ CRA 專案
   - components + combo
     　　內含其他 component
 
-    - page
-      　　主要頁面
+  - page
+    　　主要頁面
 
 ### HTML 撰寫風格
 

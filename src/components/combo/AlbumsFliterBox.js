@@ -4,7 +4,7 @@ import CollapseItem from "../CollapseItem";
 import RadioGroup from "./RadioGroup";
 
 import { useSelector, useDispatch } from "react-redux";
-import { selectTypes, updateDataTypes } from "../../reducers/albumsRedux";
+import { selectTypes, selectByFilter } from "../../reducers/albumsRedux";
 
 export const AlbumsFliterBox = (props) => {
   const albumTypes = useSelector(selectTypes);
@@ -19,7 +19,7 @@ export const AlbumsFliterBox = (props) => {
     // console.log("index", index);
     if (index === -1) {
       filterRef.current.push({ title: groupname, name: optval });
-      dispatch(updateDataTypes(filterRef.current));
+      dispatch(selectByFilter(filterRef.current));
     } else {
       if (filterRef.current[index].name !== optval) {
         // console.log("before splice filterRef.current", filterRef.current);
@@ -27,7 +27,7 @@ export const AlbumsFliterBox = (props) => {
         // console.log("before splice filterRef.current[0]", filterRef.current[0]);
         filterRef.current.splice(index, 1);
         filterRef.current.push({ title: groupname, name: optval });
-        dispatch(updateDataTypes(filterRef.current));
+        dispatch(selectByFilter(filterRef.current));
       }
     }
   });
@@ -36,7 +36,7 @@ export const AlbumsFliterBox = (props) => {
 
   useEffect(() => {
     filterRef.current = [];
-    dispatch(updateDataTypes([]));
+    dispatch(selectByFilter([]));
   }, [albumTypes]);
 
   const content = albumTypes.map((data, index) => {

@@ -6,14 +6,14 @@ import Loading from "../Loading";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectDataRefs,
+  selectDatasRefs,
   selectStatus,
   updateAlbumsAsync,
 } from "../../reducers/albumsRedux";
 
 // const refFliterDefaultSelect = {};
 const PageAlbum = (props) => {
-  const albumRefs = useSelector(selectDataRefs);
+  const albumRefs = useSelector(selectDatasRefs);
   const onloading = useSelector(selectStatus);
   const dispatch = useDispatch();
 

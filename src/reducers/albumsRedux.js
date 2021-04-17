@@ -7,8 +7,9 @@ const initialState = {
   datas: [],
   homeRefs: [], // for Home
 
-  dataTypes: [], // for Album e.g. [{ title: 類別, name: 手工藝 }, { title: 類別, name: 水墨畫 }]
-  dataRefs: [], // for Album
+  dataTypes: [], // for /Album filter e.g. [{ title: 類別, name: 手工藝 }, { title: 類別, name: 水墨畫 }]
+  datasRefs: [], // for /Album
+  dataRef: null, // for /Product
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -43,13 +44,13 @@ export const albumsSlice = createSlice({
   name: "albums",
   initialState,
   reducers: {
-    updateDataTypes: (state, action) => {
-      //   console.log("updateDataTypes ==========");
+    selectByFilter: (state, action) => {
+      //   console.log("selectByFilter ==========");
       //   console.log(
-      //     "updateDataTypes action.payload.length",
+      //     "selectByFilter action.payload.length",
       //     action.payload.length
       //   );
-      let _dataRefs;
+      let _datasRefs;
       if (action.payload.length) {
         const setIds = new Set();
 
@@ -71,26 +72,30 @@ export const albumsSlice = createSlice({
           });
         });
 
-        // console.log("updateDataTypes setIds :", setIds);
-        // console.log("updateDataTypes state.datas :", state.datas);
-        _dataRefs = state.datas.filter((data) => {
-          //   console.log("updateDataTypes filter data :", data);
-          //   console.log("updateDataTypes filter data.pid :", data.pid);
+        // console.log("selectByFilter setIds :", setIds);
+        // console.log("selectByFilter state.datas :", state.datas);
+        _datasRefs = state.datas.filter((data) => {
+          //   console.log("selectByFilter filter data :", data);
+          //   console.log("selectByFilter filter data.pid :", data.pid);
           //   console.log(
-          //     "updateDataTypes filter setIds.has(data.pid) !== -1 :",
+          //     "selectByFilter filter setIds.has(data.pid) !== -1 :",
           //     setIds.has(data.pid)
           //   );
 
           return setIds.has(data.pid);
         });
       } else {
-        _dataRefs = [...state.datas];
+        _datasRefs = [...state.datas];
       }
-      //   console.log("updateDataTypes action.payload :", action.payload);
-      //   console.log("updateDataTypes _dataRefs :", _dataRefs);
-      //   console.log("updateDataTypes _dataRefs.length :", _dataRefs.length);
+      //   console.log("selectByFilter action.payload :", action.payload);
+      //   console.log("selectByFilter _dataRefs :", _dataRefs);
+      //   console.log("selectByFilter _dataRefs.length :", _dataRefs.length);
       state.dataTypes = action.payload;
-      state.dataRefs = _dataRefs;
+      state.datasRefs = _datasRefs;
+    },
+    selectById: (state, action) => {
+      if (!state.datas.length || typeof action.payload != "number") return;
+      state.dataRef = state.datas.find((data) => data.pid === action.payload);
     },
   },
   extraReducers: {
@@ -109,7 +114,7 @@ export const albumsSlice = createSlice({
       //   console.log("albumsRedux action.AlbumTypes", action.payload.AlbumTypes);
       state.datas = action.payload.Albums;
       state.types = action.payload.AlbumTypes;
-      //   state.dataRefs = action.payload.Albums;
+      //   state.datasRefs = action.payload.Albums;
 
       state.homeRefs = action.payload.Albums.filter((album) => {
         return action.payload.HomeAlbumIds.indexOf(album.pid) !== -1;
@@ -121,14 +126,16 @@ export const albumsSlice = createSlice({
   },
 });
 
-export const { updateDataTypes } = albumsSlice.actions;
+export const { selectByFilter, selectById } = albumsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectHomeRefs = (state) => state.albums.homeRefs;
 export const selectDataTypes = (state) => state.albums.dataTypes;
-export const selectDataRefs = (state) => state.albums.dataRefs;
+export const selectDatasRefs = (state) => state.albums.datasRefs;
+export const selectDatas = (state) => state.albums.datas;
+export const selectDataRef = (state) => state.albums.dataRef;
 export const selectTypes = (state) => state.albums.types;
 export const selectStatus = (state) => state.albums.status;
 
