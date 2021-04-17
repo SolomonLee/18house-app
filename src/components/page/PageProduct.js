@@ -90,6 +90,12 @@ const PageProduct = ({ match }) => {
                   <p>{albumRef.creator}</p>
                 </div>
               </div>
+              <div className="row">
+                <div className="col-md-5 col-3 text-right"></div>
+                <div className="col-md-6 col-9 text-left">
+                  <p>{albumRef.content}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
