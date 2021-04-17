@@ -29,6 +29,7 @@ function FormContact() {
       title: title,
       content: content,
     }).then(() => {
+      console.log("test");
       alert("留言成功~");
       location.reload();
     });

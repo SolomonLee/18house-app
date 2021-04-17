@@ -1,6 +1,5 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import PageHome from "./components/page/PageHome";
@@ -11,21 +10,25 @@ import PageCharge from "./components/page/PageCharge";
 import PageContact from "./components/page/PageContact";
 import PageFAQ from "./components/page/PageFAQ";
 import PageProduct from "./components/page/PageProduct";
+import PageLogin from "./components/page/PageLogin";
+import PagBackend from "./components/page/PagBackend";
 
 import Broadcast from "./components/Broadcast";
 import LinkList from "./components/LinkList";
 import Split from "./components/Split";
 import Loading from "./components/Loading";
 import SocialFlowBox from "./components/SocialFlowBox";
+import LoginItem from "./components/LoginItem";
 
-import { getMenus, getSubMenus, getBroadcast } from "./apis/apiContent";
-import { getMenus_LinkList } from "./adapters/atContent";
+import { getBroadcast } from "./apis/apiContent";
+
+import { useSelector } from "react-redux";
+import { selectType } from "./reducers/userRedux";
 
 function App() {
   const [broadcast, setBroadcast] = useState([]);
   const [onloading, setOnloading] = useState(true);
-  let match = useRouteMatch();
-  // let match = "";
+  const userType = useSelector(selectType);
 
   const menus = [
     { tag: "Home", content: "首頁", url: "/" },
@@ -88,6 +91,14 @@ function App() {
         <Route exact path="/FAQ">
           <PageFAQ />
         </Route>
+        <Route exact path="/Login">
+          <PageLogin />
+        </Route>
+        {userType !== "遊客" ? (
+          <Route exact path="/Backend">
+            <PagBackend />
+          </Route>
+        ) : null}
         <Route exact path="/Product/:pid" component={PageProduct}></Route>
       </Switch>
       <footer>
@@ -110,6 +121,11 @@ function App() {
                 datas={subMenus}
                 tkey="footerSubMenu"
               />
+              <div className="row">
+                <div className="col">
+                  <LoginItem />
+                </div>
+              </div>
             </div>
           </div>
         </div>

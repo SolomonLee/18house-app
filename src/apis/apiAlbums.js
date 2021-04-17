@@ -5,16 +5,6 @@ var docAlbumTypesRef = db.collection("AlbumTypes").doc("Cve4MU3eQouqwz6WB1km");
 var docAlbumsHomeRef = db.collection("AlbumTypes").doc("37msG5yxCDFCn52iWDU2");
 var docAlbumsRef = db.collection("Albums").doc("Z0yI4HH8kn38Hvysu7nZ");
 
-const _testPost = (_data, _returnTime = 500) => {
-  const _dataClone = JSON.parse(JSON.stringify(_data));
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(_dataClone);
-    }, _returnTime);
-  });
-};
-
 export const getAlbumTypes = async () => {
   let albumTypes;
 
