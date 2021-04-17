@@ -4,7 +4,7 @@ export const getMenus_LinkList = (datas) => {
   });
 };
 
-export const getHomeShowCase_SlideList = (datas) => {
+export const getHomeAlbums_SlideList = (datas) => {
   return datas.map((data) => {
     return {
       type: "Showcase",

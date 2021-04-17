@@ -10,9 +10,9 @@ const ShowcaseItem = (props) => {
         <p className="title">{props.title}</p>
         <p className="sub_title">{props.subTitle}</p>
       </div>
-      {props?.url ? (
+      {props?.pid ? (
         <div className="item_bottom">
-          <Link to={props.url}>
+          <Link to={`/Product/${props.pid}`}>
             <button className="btn btn_style2">詳細</button>
           </Link>
         </div>

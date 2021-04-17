@@ -1,28 +1,25 @@
 import ShowcaseItem from "../ShowcaseItem";
-import Loading from "../Loading";
+// import Loading from "../Loading";
 
 export const ShowcaseList = (props) => {
-  let i = 0;
-  const datas = props.datas.map((data) => {
-    i++;
-    const key = props.tkey + "_ShowcaseItem_" + i.toString();
+  const datas = props.datas.map((data, index) => {
+    const key = props.tkey + "_ShowcaseItem_" + index.toString();
     return (
       <ShowcaseItem
         key={key}
         title={data.title}
         subTitle={data.subTitle}
-        imgUrl={data.img}
+        imgUrl={data.imgUrl}
         imgAlt={data.imgAlt}
-        url={data.url}
+        pid={data.pid}
       />
     );
   });
 
   return (
     <div className="showcase_box">
-      <Loading loading={props.onloading} />
       {props?.title ? <div className="box_title">{props?.title}</div> : null}
-      <div className="box_content">{props.onloading ? null : datas}</div>
+      <div className="box_content">{datas}</div>
     </div>
   );
 };

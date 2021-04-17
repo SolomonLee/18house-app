@@ -9,7 +9,7 @@ const RadioItem = (props) => {
         <input
           type="radio"
           onChange={handlerChange}
-          checked={props.value == props.groupvalue.val}
+          checked={props.value == props.groupvalue}
         />
         <span>{props.content}</span>
       </div>

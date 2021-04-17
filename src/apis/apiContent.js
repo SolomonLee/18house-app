@@ -1,74 +1,105 @@
-import * as testData from "./testData";
+import db from "./apiFireStroe";
 
-const _testPost = (_data, _returnTime = 500) => {
-  const _dataClone = JSON.parse(JSON.stringify(_data));
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(_dataClone);
-    }, _returnTime);
+var docBroadcastRef = db.collection("Broadcast").doc("JBPWxliwvu0dLvkx909d");
+var docBannerRef = db.collection("Banners").doc("56suDEeM9uJbUc23QbaX");
+var docAlbumsRef = db.collection("Albums").doc("Z0yI4HH8kn38Hvysu7nZ");
+var docAboutInfoRef = db.collection("AboutInfo").doc("kgcThMIcWO7J5YqXCqRK");
+var docContentFAQRef = db.collection("ContentFAQ").doc("CW0tEaUSsNODGc01UdSA");
+var docContactInfoRef = db
+  .collection("ContactInfo")
+  .doc("A0LQm3FB3YZ3g3ITypcC");
+var docContentChargeRef = db
+  .collection("ContentCharge")
+  .doc("bZgIm9m5XigCGUqHCCRN");
+
+export const getBroadcast = async () => {
+  const broadcast = [];
+
+  await docBroadcastRef.get().then((doc) => {
+    if (doc.exists) {
+      doc.data().datas.forEach((element) => {
+        broadcast.push(element);
+      });
+    }
   });
+
+  return broadcast;
 };
 
-export const getMenus = () => {
-  return _testPost(testData.contentMenu);
-};
+export const getBanner = async (location) => {
+  const banners = [];
 
-export const getSubMenus = () => {
-  return _testPost(testData.contentSubMenu);
-};
+  await docBannerRef.get().then((doc) => {
+    if (doc.exists) {
+      doc.data().datas.forEach((element) => {
+        element[location].forEach((banner) => banners.push(banner));
+      });
+    }
+  });
 
-export const getBroadcast = () => {
-  let datas = [];
-  for (const data of testData.broadcast) datas.push(data.content);
-
-  return _testPost(datas);
-};
-
-export const getBanner = (location) => {
-  return _testPost(
-    testData.banners.filter((banner) => {
-      return banner.location == location;
-    })
-  );
+  return banners;
 };
 
 // HOME
-export const getHomeShowCase = () => {
-  let datas = [];
-  for (const data of testData.albums) {
-    if (data.showAtHome) {
-      datas.push(data);
-      if (datas.length > 10) break;
-    }
-  }
-  return _testPost(datas);
-};
 // HOME : END
 
 // ABOUT
-export const getAboutInfo = () => {
-  return _testPost(testData.aboutInfo);
+export const getAboutInfo = async () => {
+  const aboutInfo = {};
+
+  await docAboutInfoRef.get().then((doc) => {
+    if (doc.exists) {
+      const dataCol = doc.data();
+      console.log("doc.data()", doc.data());
+      aboutInfo.title = dataCol.title;
+      aboutInfo.contents = dataCol.contents;
+    }
+  });
+
+  return aboutInfo;
 };
 
 // ABOUT : END
 
 // Contact
-export const getContactDatas = () => {
-  //_contactDatas
-  return _testPost(testData.contactInfo);
+export const getContactDatas = async () => {
+  let contactInfo = {};
+
+  await docContactInfoRef.get().then((doc) => {
+    if (doc.exists) {
+      contactInfo = doc.data();
+    }
+  });
+
+  return contactInfo;
 };
 // Contact : END
 
 // Charge
-export const getChargeDatas = () => {
-  //_contactDatas
-  return _testPost(testData.contentCharge);
+export const getChargeDatas = async () => {
+  let chargeDatas = {};
+
+  await docContentChargeRef.get().then((doc) => {
+    if (doc.exists) {
+      chargeDatas = doc.data().datas;
+    }
+  });
+
+  return chargeDatas;
 };
 // Charge : END
 
 // FAQ
-export const getFAQ = () => {
+export const getFAQ = async () => {
+  let contentFAQ = {};
+
+  await docContentFAQRef.get().then((doc) => {
+    if (doc.exists) {
+      contentFAQ = doc.data().datas;
+    }
+  });
+
   //_contactDatas
-  return _testPost(testData.contentFAQ);
+  return contentFAQ;
 };
 // FAQ : END

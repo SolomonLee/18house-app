@@ -34,7 +34,7 @@ const PageCharge = (props) => {
     return (
       <div key={key} className="row">
         <div className="col">
-          <InfoItem title={data.title} content={data.content} />
+          <InfoItem title={data.title} content={data.contents} />
         </div>
       </div>
     );

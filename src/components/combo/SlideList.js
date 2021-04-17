@@ -60,17 +60,17 @@ function SlideList(props) {
     setDatasIndex(0);
   }, [props.datas]);
 
-  const porducts = datas.map((data) => {
-    switch (data.type) {
-      case "Showcase":
+  const porducts = props.datas.map((data, index) => {
+    switch (props.type) {
+      case "showcase":
         return (
           <ShowcaseItem
-            key={props.tkey + data.title}
+            key={props.tkey + index.toString()}
             title={data.title}
             subTitle={data.subTitle}
             imgUrl={data.imgUrl}
             imgAlt={data.imgAlt}
-            url={data.url}
+            pid={data.pid}
           />
         );
     }

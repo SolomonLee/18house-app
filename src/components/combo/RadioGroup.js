@@ -1,20 +1,25 @@
 import RadioItem from "../RadioItem";
+import { useState } from "react";
 
 export const RadioGroup = (props) => {
-  let i = 0;
-  const datas = props.datas.map((data) => {
-    const _setValue = (id) => {
-      data.content.val = id;
-      props.setValue(props.orgdatas);
+  const [groupvalue, setGroupvalue] = useState(props?.defualt || "");
+
+  const datas = props.opts.map((opt, index) => {
+    const _setValue = (val) => {
+      if (val == groupvalue) return;
+
+      setGroupvalue(val);
+
+      if (props?.groupname) props.onchange(props.groupname, val);
+      else props.onchange(val);
     };
 
-    i++;
     return (
       <RadioItem
-        key={props.tkey + "Radio_group_" + i.toString()}
-        content={data.title}
-        value={data.id}
-        groupvalue={data.content}
+        key={props.tkey + "Radio_group_" + index.toString()}
+        content={opt.title}
+        value={opt.val}
+        groupvalue={groupvalue}
         setValue={_setValue}
       />
     );

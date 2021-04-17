@@ -16,7 +16,7 @@ const PageAbout = (props) => {
     let _isMounted = true;
     setLoadingPromise(
       [
-        getBanner("About").then((_banners) => {
+        getBanner("about").then((_banners) => {
           if (_isMounted) setBanner(_banners);
         }),
         getAboutInfo().then((_aboutInfo) => {

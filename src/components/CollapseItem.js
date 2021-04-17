@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // props { styleClass[string] , title[string], datas}
 const CollapseItem = (props) => {
-  if (props?.datas == undefined) return null;
+  if (props?.children == undefined) return null;
 
   const [collapseIsOpen, setCollapseIsOpen] = useState(
     props?.defualtCollapse || false
@@ -21,7 +21,7 @@ const CollapseItem = (props) => {
       <div className="item_title" onClick={handlerCollapse}>
         {props?.title || null}
       </div>
-      <div className="item_content">{props.datas}</div>
+      <div className="item_content">{props.children}</div>
     </div>
   );
 };

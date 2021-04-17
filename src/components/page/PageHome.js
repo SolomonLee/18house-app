@@ -5,13 +5,24 @@ import Banner from "../Banner";
 import SlideList from "../combo/SlideList";
 import Loading, { setLoadingPromise } from "../Loading";
 
-import { getBanner, getHomeShowCase } from "../../apis/apiContent";
-import { getHomeShowCase_SlideList } from "../../adapters/atContent";
+import { getHomeAlbums } from "../../apis/apiAlbums";
+import { getBanner } from "../../apis/apiContent";
+import { getHomeAlbums_SlideList } from "../../adapters/atContent";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectHomeRefs,
+  selectStatus,
+  updateAlbumsAsync,
+} from "../../reducers/albumsRedux";
 
 const PageHome = (props) => {
   const [banner, setBanner] = useState([]);
   const [showCase, setShowCase] = useState([]);
   const [onloading, setOnloading] = useState(true);
+
+  const albumHomeRefs = useSelector(selectHomeRefs);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setOnloading(true);
@@ -20,12 +31,10 @@ const PageHome = (props) => {
     let _isMounted = true;
     setLoadingPromise(
       [
-        getBanner("Home").then((_banner) => {
+        getBanner("home").then((_banner) => {
           if (_isMounted) setBanner(_banner);
         }),
-        getHomeShowCase().then((_showCase) => {
-          if (_isMounted) setShowCase(getHomeShowCase_SlideList(_showCase));
-        }),
+        dispatch(updateAlbumsAsync()),
       ],
       () => {
         alert("這個網站發生一些錯誤, 請聯絡官方人員。");
@@ -37,6 +46,10 @@ const PageHome = (props) => {
 
     return () => (_isMounted = false);
   }, []);
+
+  useEffect(() => {
+    console.log("albumHomeRefs: ", albumHomeRefs);
+  }, [albumHomeRefs]);
 
   return (
     <div className="content PageHome">
@@ -51,7 +64,7 @@ const PageHome = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <SlideList title="展示區一" datas={showCase} />
+            <SlideList title="展示區一" datas={albumHomeRefs} type="showcase" />
           </div>
         </div>
         <div className="row">
