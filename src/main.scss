@@ -1066,6 +1066,10 @@ body .App .btn {
     }
   }
 
+  & + * {
+    display: none;
+  }
+
   > .item_content {
     display: inline-block;
     width: 100%;

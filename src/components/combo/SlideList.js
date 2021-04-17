@@ -36,27 +36,13 @@ function SlideList(props) {
   useEffect(() => {
     const maxShowCount = Math.floor(refDataBox.current.clientWidth / itemWidth);
 
-    if (maxShowCount >= datas.length) refMaxShowIndex.current = 0;
-    else refMaxShowIndex.current = datas.length - maxShowCount - 1;
+    if (maxShowCount >= props.datas.length) refMaxShowIndex.current = 0;
+    else refMaxShowIndex.current = props.datas.length - maxShowCount - 1;
 
     moveSlide(datasIndex);
   }, [itemWidth]);
 
   useEffect(() => {
-    datas.splice(0, datas.length);
-
-    props.datas.forEach((data) => {
-      const _data = datas[datas.push({}) - 1];
-
-      _data["title"] = data.title;
-      _data["type"] = data.type;
-      _data["subTitle"] = data.subTitle;
-      _data["imgUrl"] = data.imgUrl;
-      _data["imgAlt"] = data.imgAlt;
-      _data["url"] = data.url;
-    });
-
-    setDatas(datas);
     setDatasIndex(0);
   }, [props.datas]);
 
@@ -77,7 +63,7 @@ function SlideList(props) {
   });
 
   const handlerMoveRight = () => {
-    if (datasIndex + 1 < datas.length) moveSlide(datasIndex + 1);
+    if (datasIndex + 1 < props.datas.length) moveSlide(datasIndex + 1);
   };
 
   const handlerMoveLeft = () => {

@@ -1,23 +1,37 @@
 import FillItem from "./FillItem";
-// import TextareaItem from "./TextareaItem";
 import React, { useState } from "react";
+import { setQuestion } from "../../apis/apiContent";
+import { verificationEmail } from "../../common/verification";
 
 function FormContact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
-    let a = {
+    // console.log(e);
+
+    if (email == "" || name == "" || title == "" || content == "") {
+      alert("欄位不得為空");
+      return;
+    }
+
+    if (!verificationEmail(email)) {
+      alert("EMAIL 格式有誤");
+      return;
+    }
+
+    setQuestion({
       name: name,
       email: email,
-      subject: subject,
-      message: message,
-    };
-    console.log("form data : ", a);
+      title: title,
+      content: content,
+    }).then(() => {
+      alert("留言成功~");
+      location.reload();
+    });
   };
 
   return (
@@ -48,9 +62,9 @@ function FormContact() {
           <div className="col">
             <FillItem
               placeholder="來點主題吧"
-              setValue={setSubject}
+              setValue={setTitle}
               type="text"
-              defaultValue={subject}
+              defaultValue={title}
               request={true}
             />
           </div>
@@ -59,9 +73,9 @@ function FormContact() {
           <div className="col">
             <FillItem
               placeholder="這裡需要一點訊息"
-              setValue={setMessage}
+              setValue={setContent}
               type="textArea"
-              defaultValue={message}
+              defaultValue={content}
               request={true}
             />
           </div>

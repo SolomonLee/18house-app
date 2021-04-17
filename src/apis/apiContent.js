@@ -2,7 +2,6 @@ import db from "./apiFireStroe";
 
 var docBroadcastRef = db.collection("Broadcast").doc("JBPWxliwvu0dLvkx909d");
 var docBannerRef = db.collection("Banners").doc("56suDEeM9uJbUc23QbaX");
-var docAlbumsRef = db.collection("Albums").doc("Z0yI4HH8kn38Hvysu7nZ");
 var docAboutInfoRef = db.collection("AboutInfo").doc("kgcThMIcWO7J5YqXCqRK");
 var docContentFAQRef = db.collection("ContentFAQ").doc("CW0tEaUSsNODGc01UdSA");
 var docContactInfoRef = db
@@ -11,6 +10,8 @@ var docContactInfoRef = db
 var docContentChargeRef = db
   .collection("ContentCharge")
   .doc("bZgIm9m5XigCGUqHCCRN");
+
+var docContentQuestionCollection = db.collection("ContentQuestion");
 
 export const getBroadcast = async () => {
   const broadcast = [];
@@ -101,5 +102,45 @@ export const getFAQ = async () => {
 
   //_contactDatas
   return contentFAQ;
+};
+
+export const setQuestion = async (data) => {
+  await docContentQuestionCollection
+    .add({
+      name: data.name,
+      email: data.email,
+      title: data.title,
+      content: data.content,
+      ans: "尚未回答",
+    })
+    .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+
+  return;
+};
+
+export const getQuestion = async () => {
+  const questions = [];
+
+  await docContentQuestionCollection.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+      if (
+        questions.find((question) => {
+          return (
+            question.title == doc.data().title &&
+            question.email == doc.data().email
+          );
+        }) === undefined
+      )
+        questions.push(doc.data());
+    });
+  });
+
+  return questions;
 };
 // FAQ : END
