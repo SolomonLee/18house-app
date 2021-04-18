@@ -22,11 +22,14 @@ const InputItem = (props) => {
             type={props.type}
             onChange={handlerChange}
             defaultValue={props?.defaultValue ? props.defaultValue : ""}
+            value={props?.value || null}
           />
         ) : props.type == "textArea" ? (
-          <textarea onChange={handlerChange}>
-            {props?.defaultValue ? props.defaultValue : null}
-          </textarea>
+          <textarea
+            onChange={handlerChange}
+            defaultValue={props?.defaultValue ? props.defaultValue : null}
+            value={props?.value || null}
+          />
         ) : null}
         {showPlaceholder ? (
           <div className="placeholder">{props.placeholder}</div>

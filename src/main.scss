@@ -270,8 +270,9 @@ body .App .btn {
     > li {
       display: none;
       width: 100%;
-      height: inherit;
+      height: 100%;
       overflow: hidden;
+      will-change: transform;
       position: absolute;
 
       img {
@@ -281,32 +282,34 @@ body .App .btn {
       }
     }
 
+    > .now,
+    > .prve {
+      display: block;
+    }
+
     > .now {
-      display: inline-block;
-      left: 0;
+      transform: translate(0, 0);
     }
 
     $bannerduration: 1s;
     &[bannerdirection="goRight"] {
       > .prve {
-        display: inline-block;
-        left: -100vw;
-
         @include easy_animation(
           "banner_prve_move_right",
-          left,
-          0,
-          -100vw,
+          transform,
+          "translate(0, 0)",
+          "translate(-100%, 0)",
           $bannerduration
         );
+        transform: translate(-100%, 0);
       }
 
       > .now {
         @include easy_animation(
           "banner_now_move_right",
-          left,
-          100vw,
-          0,
+          transform,
+          "translate(100%, 0)",
+          "translate(0, 0)",
           $bannerduration
         );
       }
@@ -314,24 +317,22 @@ body .App .btn {
 
     &[bannerdirection="goLeft"] {
       > .prve {
-        display: inline-block;
-        left: 100vw;
-
         @include easy_animation(
           "banner_prve_move_left",
-          left,
-          0,
-          100vw,
+          transform,
+          "translate(0%, 0)",
+          "translate(100%, 0)",
           $bannerduration
         );
+        transform: translate(100%, 0);
       }
 
       > .now {
         @include easy_animation(
           "banner_now_move_left",
-          left,
-          -100vw,
-          0,
+          transform,
+          "translate(-100%, 0)",
+          "translate(0, 0)",
           $bannerduration
         );
       }
@@ -665,7 +666,6 @@ body .App .btn {
 .album_box {
   & > .box_title {
     img {
-      height: 450px;
       max-height: 60vh;
     }
   }
@@ -712,6 +712,13 @@ body .App .btn {
       margin-bottom: 0;
     }
 
+    ul {
+      white-space: nowrap;
+      overflow: auto;
+      max-width: calc(100vw - 30px);
+      min-height: 45px;
+    }
+
     li {
       display: inline-block;
     }
@@ -735,6 +742,56 @@ body .App .btn {
 
       &:hover {
         color: #666;
+      }
+    }
+  }
+
+  @mixin vertical_left {
+    padding-left: 20px;
+    width: 100%;
+    text-align: left;
+
+    li {
+      border-bottom: 2px solid #555;
+      background-color: #555;
+
+      .btn,
+      button,
+      a {
+        display: inline-block;
+        line-height: 50px;
+        width: 100%;
+        padding-left: 4px;
+        text-align: left;
+        height: auto;
+        border-radius: 0;
+        background-color: #fff;
+      }
+    }
+  }
+
+  &[stylenum="vertical-left"] {
+    @include vertical_left;
+  }
+
+  &[stylenum="vertical-left-select"] {
+    @include vertical_left;
+    .btn,
+    button,
+    a {
+      transition: transform ease-in-out 0.2s;
+      transform: translate(0, 0);
+
+      &:hover {
+        transform: translate(4%, 0);
+      }
+
+      &[select] {
+        transform: translate(4%, 0);
+      }
+
+      &[active] {
+        font-weight: bold;
       }
     }
   }
@@ -1255,7 +1312,7 @@ body .App .btn {
     border-bottom: 1px solid #ccc;
 
     > .item_title {
-      padding: 12px 0 14px;
+      padding: 6px 0 18px;
     }
 
     > .item_content {
@@ -1305,6 +1362,30 @@ body .App .btn {
     padding-left: 20px;
   }
 } // info_item
+
+.question_item {
+  text-align: left;
+  > .item_title {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 20px;
+  }
+  > .item_content {
+    p {
+      padding-left: 8px;
+      margin-bottom: 12px;
+
+      & + p {
+        border-top: 1px solid #eee;
+        padding-top: 12px;
+      }
+    }
+  }
+
+  > .item_bottom {
+    text-align: right;
+  }
+} // question_item
 
 // ===== ITEM : END =====
 

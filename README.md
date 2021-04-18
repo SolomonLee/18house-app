@@ -1,6 +1,14 @@
 # 18house-app
 
-CRA 專案
+- CRA 專案
+- 使用 React 相關敘述  
+  Function Component  
+  React Hook
+- 使用主要套件  
+  react-router-dom(Single-page Application)
+  React-Bootstrap  
+  react-redux  
+  reduxjs/toolkit
 
 ### 資料夾結構
 
@@ -20,6 +28,9 @@ CRA 專案
 
   - page
     　　主要頁面
+
+  - reducers  
+    　　 reduce 與 store
 
 ### HTML 撰寫風格
 

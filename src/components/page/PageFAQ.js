@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Loading, { setLoadingPromise } from "../Loading";
 import CollapseItem from "../CollapseItem";
-import { getFAQ, getQuestion } from "../../apis/apiContent";
+import { getFAQ } from "../../apis/apiContent";
+import { getQuestion } from "../../apis/apiQuestion";
 
 const PageFAQ = (props) => {
   const [contentFAQs, setContentFAQs] = useState([]);

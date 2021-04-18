@@ -35,6 +35,7 @@ const FillItem = (props) => {
       <div className="item_content">
         <InputItem
           type={props.type}
+          value={props?.value || null}
           setValue={setValue}
           defaultValue={props.defaultValue}
           error={errorMsg != ""}

@@ -1,17 +1,8 @@
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { routes, RouteWithSubRoutes } from "./route";
 
-import PageHome from "./components/page/PageHome";
-import PageAlbum from "./components/page/PageAlbum";
-import PageAbout from "./components/page/PageAbout";
-import PageSchedule from "./components/page/PageSchedule";
-import PageCharge from "./components/page/PageCharge";
-import PageContact from "./components/page/PageContact";
-import PageFAQ from "./components/page/PageFAQ";
-import PageProduct from "./components/page/PageProduct";
-import PageLogin from "./components/page/PageLogin";
-import PagBackend from "./components/page/PagBackend";
+import { useState, useEffect } from "react";
 
 import Broadcast from "./components/Broadcast";
 import LinkList from "./components/LinkList";
@@ -67,39 +58,12 @@ function App() {
         <div className="title">
           <img src="/img/icon2.jpg" alt="" /> 熊村莊
         </div>
-        <LinkList styleClass="header_menu" datas={menus} tkey="headerMenu" />
+        <LinkList styleclass="header_menu" datas={menus} tkey="headerMenu" />
       </header>
       <Switch>
-        <Route exact path="/">
-          <PageHome />
-        </Route>
-        <Route exact path="/Album">
-          <PageAlbum />
-        </Route>
-        <Route exact path="/About">
-          <PageAbout />
-        </Route>
-        <Route exact path="/Schedule">
-          <PageSchedule />
-        </Route>
-        <Route exact path="/Charge">
-          <PageCharge />
-        </Route>
-        <Route exact path="/Contact">
-          <PageContact />
-        </Route>
-        <Route exact path="/FAQ">
-          <PageFAQ />
-        </Route>
-        <Route exact path="/Login">
-          <PageLogin />
-        </Route>
-        {userType !== "遊客" ? (
-          <Route exact path="/Backend">
-            <PagBackend />
-          </Route>
-        ) : null}
-        <Route exact path="/Product/:pid" component={PageProduct}></Route>
+        {routes.map((route, i) => {
+          return <RouteWithSubRoutes key={i} {...route} />;
+        })}
       </Switch>
       <footer>
         <Split content="熊村莊" />
@@ -107,7 +71,7 @@ function App() {
           <div className="row">
             <div className="col-md-4">
               <LinkList
-                styleClass="footer_menu"
+                styleclass="footer_menu"
                 datas={menus}
                 tkey="footerMainMenu"
               />
@@ -117,7 +81,7 @@ function App() {
             </div>
             <div className="col-md-4">
               <LinkList
-                styleClass="footer_menu"
+                styleclass="footer_menu"
                 datas={subMenus}
                 tkey="footerSubMenu"
               />

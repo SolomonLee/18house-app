@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-// props { styleClass[string] , title[string], datas[obj]{ url[string], content[string]}}
+// props { styleclass[string] , title[string], datas[obj]{ url[string], content[string]}}
 const LinkList = (props) => {
   let datas = null;
   if (props?.datas) {
@@ -22,7 +22,7 @@ const LinkList = (props) => {
   }
 
   return (
-    <div className="list_item" stylenum={props?.styleClass}>
+    <div className="list_item" stylenum={props?.styleclass}>
       {props?.title ? <div className="item_title">{props.title}</div> : null}
       <div className="item_content">
         <ul>

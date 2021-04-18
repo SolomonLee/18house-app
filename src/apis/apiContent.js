@@ -11,8 +11,6 @@ var docContentChargeRef = db
   .collection("ContentCharge")
   .doc("bZgIm9m5XigCGUqHCCRN");
 
-var docContentQuestionCollection = db.collection("ContentQuestion");
-
 export const getBroadcast = async () => {
   const broadcast = [];
 
@@ -41,9 +39,6 @@ export const getBanner = async (location) => {
   return banners;
 };
 
-// HOME
-// HOME : END
-
 // ABOUT
 export const getAboutInfo = async () => {
   const aboutInfo = {};
@@ -51,7 +46,7 @@ export const getAboutInfo = async () => {
   await docAboutInfoRef.get().then((doc) => {
     if (doc.exists) {
       const dataCol = doc.data();
-      console.log("doc.data()", doc.data());
+      // console.log("doc.data()", doc.data());
       aboutInfo.title = dataCol.title;
       aboutInfo.contents = dataCol.contents;
     }
@@ -102,45 +97,5 @@ export const getFAQ = async () => {
 
   //_contactDatas
   return contentFAQ;
-};
-
-export const setQuestion = async (data) => {
-  await docContentQuestionCollection
-    .add({
-      name: data.name,
-      email: data.email,
-      title: data.title,
-      content: data.content,
-      ans: "尚未回答",
-    })
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
-
-  return;
-};
-
-export const getQuestion = async () => {
-  const questions = [];
-
-  await docContentQuestionCollection.get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-      if (
-        questions.find((question) => {
-          return (
-            question.title == doc.data().title &&
-            question.email == doc.data().email
-          );
-        }) === undefined
-      )
-        questions.push(doc.data());
-    });
-  });
-
-  return questions;
 };
 // FAQ : END

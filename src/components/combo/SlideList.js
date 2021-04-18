@@ -36,10 +36,15 @@ function SlideList(props) {
   useEffect(() => {
     const maxShowCount = Math.floor(refDataBox.current.clientWidth / itemWidth);
 
+    let mv = 0;
     if (maxShowCount >= props.datas.length) refMaxShowIndex.current = 0;
-    else refMaxShowIndex.current = props.datas.length - maxShowCount - 1;
+    else {
+      const mr = props.datas.length - maxShowCount + 1;
+      if (refMaxShowIndex.current > mr) mv = refMaxShowIndex.current - mr;
+      refMaxShowIndex.current = mr;
+    }
 
-    moveSlide(datasIndex);
+    moveSlide(datasIndex - mv);
   }, [itemWidth]);
 
   useEffect(() => {

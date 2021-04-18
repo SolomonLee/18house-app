@@ -42,57 +42,57 @@ const PageProduct = ({ match }) => {
             </div>
             <div className="box_content">
               <div className="row">
-                <div className="col-md-5 col-3 text-right">
+                <div className="col-md-5 col-4 text-right">
                   <p>作品名稱:</p>
                 </div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.title}</p>
                 </div>
               </div>
 
               <div className="row">
-                <div className="col-md-5 col-3 text-right">
+                <div className="col-md-5 col-4 text-right">
                   <p>作品細項:</p>
                 </div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.subTitle}</p>
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-5 col-3 text-right">
+                <div className="col-md-5 col-4 text-right">
                   <p>作品類別:</p>
                 </div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.type}</p>
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-5 col-3 text-right">
+                <div className="col-md-5 col-4 text-right">
                   <p>創作日期:</p>
                 </div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.createDate}</p>
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-5 col-3 text-right">
+                <div className="col-md-5 col-4 text-right">
                   <p>創作概念:</p>
                 </div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.createIdea}</p>
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-5 col-3 text-right">
+                <div className="col-md-5 col-4 text-right">
                   <p>作者姓名:</p>
                 </div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.creator}</p>
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-5 col-3 text-right"></div>
-                <div className="col-md-6 col-9 text-left">
+                <div className="col-md-5 col-4 text-right"></div>
+                <div className="col-md-6 col-8 text-left">
                   <p>{albumRef.content}</p>
                 </div>
               </div>
