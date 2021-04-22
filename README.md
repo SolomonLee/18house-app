@@ -9,6 +9,8 @@
   React-Bootstrap  
   react-redux  
   reduxjs/toolkit
+- 測試資料使用  
+  Cloud Firestore
 
 ### 資料夾結構
 
@@ -29,7 +31,7 @@
   - page
     　　主要頁面
 
-  - reducers  
+  - reducers
     　　 reduce 與 store
 
 ### HTML 撰寫風格
