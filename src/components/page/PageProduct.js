@@ -32,7 +32,7 @@ const PageProduct = ({ match }) => {
   }, [albumRef]);
 
   return (
-    <div className="content PageProduct">
+    <div className="PageProduct">
       <Loading loading={albumRef === null || !albumRef} />
       <div className="container">
         {albumRef === null || !albumRef ? null : (

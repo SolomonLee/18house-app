@@ -3,17 +3,31 @@ import Loading from "../Loading";
 import InfoItem from "../InfoItem";
 import { getChargeDatas } from "../../apis/apiContent";
 
+import { storage, initSession } from "../../common/sessionStorageExtend";
+
+initSession({
+  chargeDatas: "PageChargeFiexDataChargeDatas",
+});
+
 const PageCharge = (props) => {
-  const [chargeDatas, setChargeDatas] = useState([]);
-  const [onloading, setOnloading] = useState(true);
+  const [chargeDatas, setChargeDatas] = useState(storage.chargeDatas.get());
+  const [onloading, setOnloading] = useState(chargeDatas ? false : true);
 
   useEffect(() => {
     // LOAD DATA
+    if (!onloading) {
+      getChargeDatas().then((_chargeDatas) => {
+        storage.chargeDatas.set(_chargeDatas);
+      });
+      return;
+    }
+
     let _isMounted = true;
     getChargeDatas()
       .then(
         (_chargeDatas) => {
           if (_isMounted) {
+            storage.chargeDatas.set(_chargeDatas);
             setChargeDatas(_chargeDatas);
           }
         },
@@ -28,25 +42,26 @@ const PageCharge = (props) => {
     return () => (_isMounted = false);
   }, []);
 
-  let i = 0;
-  const _datas = chargeDatas.map((data) => {
-    const key = "PageCharge_" + (++i).toString();
-    return (
-      <div key={key} className="row">
-        <div className="col">
-          <InfoItem title={data.title} content={data.contents} />
-        </div>
-      </div>
-    );
-  });
-
   return (
-    <div className="content PageCharge">
+    <div className="PageCharge">
       <Loading loading={onloading} />
       <div className="container">
         <div className="message_box">
           <div className="box_title">收費方式</div>
-          <div className="box_content">{_datas}</div>
+          <div className="box_content">
+            {chargeDatas
+              ? chargeDatas.map((data) => {
+                  const key = `PageCharge_${data.contents}`;
+                  return (
+                    <div key={key} className="row">
+                      <div className="col">
+                        <InfoItem title={data.title} content={data.contents} />
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
         </div>
       </div>
     </div>

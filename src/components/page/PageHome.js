@@ -5,21 +5,20 @@ import Banner from "../Banner";
 import SlideList from "../combo/SlideList";
 import Loading, { setLoadingPromise } from "../Loading";
 
-import { getHomeAlbums } from "../../apis/apiAlbums";
 import { getBanner } from "../../apis/apiContent";
-import { getHomeAlbums_SlideList } from "../../adapters/atContent";
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  selectHomeRefs,
-  selectStatus,
-  updateAlbumsAsync,
-} from "../../reducers/albumsRedux";
+import { selectHomeRefs, updateAlbumsAsync } from "../../reducers/albumsRedux";
 
-const PageHome = (props) => {
-  const [banner, setBanner] = useState([]);
-  const [showCase, setShowCase] = useState([]);
-  const [onloading, setOnloading] = useState(true);
+const sessionDataName = {
+  banner: "PageHomeFiexDataTextInfo",
+};
+
+const PageHome = () => {
+  const [banner, setBanner] = useState(
+    JSON.parse(window.sessionStorage.getItem(sessionDataName.banner))
+  );
+  const [onloading, setOnloading] = useState(banner ? false : true);
 
   const albumHomeRefs = useSelector(selectHomeRefs);
   const dispatch = useDispatch();
@@ -47,12 +46,8 @@ const PageHome = (props) => {
     return () => (_isMounted = false);
   }, []);
 
-  // useEffect(() => {
-  //   // console.log("albumHomeRefs: ", albumHomeRefs);
-  // }, [albumHomeRefs]);
-
   return (
-    <div className="content PageHome">
+    <div className="PageHome">
       <Loading loading={onloading} />
       <div className="container-fluid">
         <div className="row">
@@ -64,7 +59,7 @@ const PageHome = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <SlideList title="展示區一" datas={albumHomeRefs} type="showcase" />
+            <SlideList title="精華區" datas={albumHomeRefs} type="showcase" />
           </div>
         </div>
         <div className="row">
@@ -74,12 +69,6 @@ const PageHome = (props) => {
             </Link>
           </div>
         </div>
-
-        {/* <h2 className="content_title">展示區1</h2>
-        <PorductListHorizontal
-          products={products}
-          tkey="HomePorductListHorizontal"
-        /> */}
       </div>
     </div>
   );

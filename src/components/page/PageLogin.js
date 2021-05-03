@@ -29,7 +29,7 @@ const PageLogin = () => {
   };
 
   return (
-    <div className="content PageLogin">
+    <div className="PageLogin">
       {userType == "遊客" ? null : <Redirect to="/" />}
       <Container>
         <div className="_box">

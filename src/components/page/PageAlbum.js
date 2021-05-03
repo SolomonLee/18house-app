@@ -22,7 +22,7 @@ const PageAlbum = (props) => {
   }, []);
 
   return (
-    <div className="content PageAlbum">
+    <div className="PageAlbum">
       <Loading loading={onloading !== "done"} />
       <div className="container-fluid">
         <div className="row">

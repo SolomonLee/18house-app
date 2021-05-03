@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import classNames from "classnames";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 const bannerLockDuration = 1000; // 嘗試切換banner 間隔時間
 const autoMoveBannerDuration = 5000; // 自動切換banner 每次間隔時間
@@ -44,6 +44,20 @@ const Banner = (props) => {
 
   useEffect(() => {
     setBannerAction("stop");
+    bannerLock.current = true;
+    // const _bannerDatas = [];
+    // props.datas.forEach((data) => {
+    //   _bannerDatas.push({});
+
+    //   const _index = _bannerDatas.length - 1;
+    //   let _banner = _bannerDatas[_index];
+    //   _banner["url"] = data?.url;
+    //   _banner["imgAlt"] = data?.imgAlt;
+    //   _banner["imgUrl"] = data?.imgUrl;
+
+    //   if (_index == 0) _banner["classNames"] = { now: true, prve: false };
+    //   else _banner["classNames"] = { now: false, prve: false };
+    // });
     bannerDatas.splice(0, bannerDatas.length);
     props.datas.forEach((data) => {
       bannerDatas.push({});
@@ -58,15 +72,19 @@ const Banner = (props) => {
       else _banner["classNames"] = { now: false, prve: false };
     });
 
-    setBannerDatas(bannerDatas);
+    setBannerDatas([...bannerDatas]);
     setBannerIndex(0);
 
-    const _tempTimer = setTimeout(() => {
-      setBannerAction("start");
-    }, 1100);
+    let _tempTimer = null;
+    if (props.datas.length > 1) {
+      _tempTimer = setTimeout(() => {
+        setBannerAction("start");
+        bannerLock.current = false;
+      }, 1200);
+    }
 
     return () => {
-      clearTimeout(_tempTimer);
+      if (_tempTimer) clearTimeout(_tempTimer);
     };
   }, [props.datas]);
 

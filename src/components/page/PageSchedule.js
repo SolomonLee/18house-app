@@ -29,7 +29,7 @@ const PageSchedule = (props) => {
   }, []);
 
   return (
-    <div className="content PageSchedule">
+    <div className="PageSchedule">
       <Loading loading={onloading} />
       <div className="container-fluid">
         <div className="row">

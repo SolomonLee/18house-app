@@ -6,21 +6,44 @@ import Loading, { setLoadingPromise } from "../Loading";
 
 import { getBanner, getAboutInfo } from "../../apis/apiContent";
 
+import { storage, initSession } from "../../common/sessionStorageExtend";
+
+initSession({
+  banner: "PageAboutFiexDataBanner",
+  aboutInfo: "PageAboutFiexDataAboutInfo",
+});
+
 const PageAbout = (props) => {
-  const [banner, setBanner] = useState([]);
-  const [aboutInfo, setAboutInfo] = useState({});
-  const [onloading, setOnloading] = useState(true);
+  const [banner, setBanner] = useState(storage.banner.get());
+  const [aboutInfo, setAboutInfo] = useState(storage.aboutInfo.get());
+  const [onloading, setOnloading] = useState(
+    banner && aboutInfo ? false : true
+  );
 
   useEffect(() => {
     // LOAD DATA
+    if (!onloading) {
+      getBanner("about").then((_banners) => {
+        storage.banner.set(_banners);
+      });
+
+      getAboutInfo().then((_aboutInfo) => {
+        storage.aboutInfo.set(_aboutInfo);
+      });
+
+      return;
+    }
+
     let _isMounted = true;
     setLoadingPromise(
       [
         getBanner("about").then((_banners) => {
           if (_isMounted) setBanner(_banners);
+          storage.banner.set(_banners);
         }),
         getAboutInfo().then((_aboutInfo) => {
           if (_isMounted) setAboutInfo(_aboutInfo);
+          storage.aboutInfo.set(_aboutInfo);
         }),
       ],
       () => {
@@ -35,12 +58,12 @@ const PageAbout = (props) => {
   }, []);
 
   return (
-    <div className="content PageAbout">
+    <div className="PageAbout">
       <Loading loading={onloading} />
       <div className="container-fluid">
         <div className="row">
           <div className="w-100">
-            <Banner datas={banner} objectFit="cover" />
+            {banner ? <Banner datas={banner} objectFit="cover" /> : null}
           </div>
         </div>
       </div>
@@ -48,10 +71,14 @@ const PageAbout = (props) => {
         <div className="row">
           <div className="col">
             <div className="_box">
-              <div className="box_title">{aboutInfo.title}</div>
-              <div className="box_content">
-                <ListItem datas={aboutInfo.contents} />
-              </div>
+              {aboutInfo ? (
+                <>
+                  <div className="box_title">{aboutInfo.title}</div>
+                  <div className="box_content">
+                    <ListItem datas={aboutInfo.contents} />
+                  </div>
+                </>
+              ) : null}
             </div>
           </div>
         </div>

@@ -8,17 +8,39 @@ import FormContact from "../combo/FormContact";
 import GoogleMapIframe from "../GoogleMapIframe";
 import Loading from "../Loading";
 
+import { storage, initSession } from "../../common/sessionStorageExtend";
+
+initSession({
+  textInfo: "PageContactFiexDataTextInfo",
+  googleMapUrl: "PageContactFiexDataGoogleMapUrl",
+});
+
 const PageContact = () => {
-  const [contactDatas, setContactDatas] = useState([]);
-  const [googleMapUrl, setGoogleMapUrl] = useState("");
-  const [onloading, setOnloading] = useState(true);
+  const [contactDatas, setContactDatas] = useState(storage.textInfo.get());
+  const [googleMapUrl, setGoogleMapUrl] = useState(storage.googleMapUrl.get());
+  const [onloading, setOnloading] = useState(
+    contactDatas && googleMapUrl ? false : true
+  );
 
   useEffect(() => {
     // LOAD DATA
+    if (!onloading) {
+      getContactDatas().then((_contactDatas) => {
+        storage.textInfo.set(getContactDatas_ListItem(_contactDatas.textInfo));
+
+        storage.googleMapUrl.set(_contactDatas.googleMapUrl);
+      });
+
+      return;
+    }
     let _isMounted = true;
     getContactDatas()
       .then(
         (_contactDatas) => {
+          storage.textInfo.set(
+            getContactDatas_ListItem(_contactDatas.textInfo)
+          );
+          storage.googleMapUrl.set(_contactDatas.googleMapUrl);
           if (_isMounted) {
             setContactDatas(getContactDatas_ListItem(_contactDatas.textInfo));
             setGoogleMapUrl(_contactDatas.googleMapUrl);
@@ -31,21 +53,11 @@ const PageContact = () => {
       .finally(() => {
         if (_isMounted) setOnloading(false);
       });
-
     return () => (_isMounted = false);
   }, []);
 
-  let i = 0;
-  const jsxContactData = contactDatas.map((contactData) => {
-    return (
-      <div className="col-md-4" key={"PageContact_" + i++}>
-        <ListItem title={contactData.title} datas={contactData.datas} />{" "}
-      </div>
-    );
-  });
-
   return (
-    <div className="content PageContact">
+    <div className="PageContact">
       <Loading loading={onloading} />
       <div className="container">
         <div className="row">
@@ -53,7 +65,23 @@ const PageContact = () => {
             <div className="message_box">
               <div className="box_title">聯絡我們</div>
               <div className="box_content">
-                <div className="row">{jsxContactData}</div>
+                <div className="row">
+                  {contactDatas
+                    ? contactDatas.map((contactData) => {
+                        return (
+                          <div
+                            className="col-md-4"
+                            key={`PageContact_${contactData.datas}`}
+                          >
+                            <ListItem
+                              title={contactData.title}
+                              datas={contactData.datas}
+                            />
+                          </div>
+                        );
+                      })
+                    : null}
+                </div>
               </div>
             </div>
           </div>
@@ -64,7 +92,7 @@ const PageContact = () => {
           </div>
         </div>
       </div>
-      {googleMapUrl.length ? (
+      {googleMapUrl ? (
         <div className="container-fluid">
           <div className="row">
             <div className="w-100">

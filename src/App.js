@@ -13,13 +13,13 @@ import LoginItem from "./components/LoginItem";
 
 import { getBroadcast } from "./apis/apiContent";
 
-import { useSelector } from "react-redux";
-import { selectType } from "./reducers/userRedux";
+// import { useSelector } from "react-redux";
+// import { selectType } from "./reducers/userRedux";
 
 function App() {
   const [broadcast, setBroadcast] = useState([]);
   const [onloading, setOnloading] = useState(true);
-  const userType = useSelector(selectType);
+  // const userType = useSelector(selectType);
 
   const menus = [
     { tag: "Home", content: "首頁", url: "/" },
@@ -60,13 +60,15 @@ function App() {
         </div>
         <LinkList styleclass="header_menu" datas={menus} tkey="headerMenu" />
       </header>
-      <Suspense fallback={<div>loading...</div>}>
-        <Switch>
-          {routes.map((route, i) => {
-            return <RouteWithSubRoutes key={i} {...route} />;
-          })}
-        </Switch>
-      </Suspense>
+      <div className="content">
+        <Suspense fallback={<Loading loading={true} content="loading" />}>
+          <Switch>
+            {routes.map((route, i) => {
+              return <RouteWithSubRoutes key={i} {...route} />;
+            })}
+          </Switch>
+        </Suspense>
+      </div>
       <footer>
         <Split content="熊村莊" />
         <div className="container">

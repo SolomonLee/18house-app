@@ -3,41 +3,61 @@ import { useState, useEffect, useCallback, useRef } from "react";
 const SocialFlowBox = (props) => {
   const [position, setPosition] = useState("bottom");
   const footerHeight = useRef(0);
-  const scannerFooterHeight = useRef();
+  const scannerFooterHeight = useRef(null);
+  const refTimerScorll = useRef(null);
+  const refTimerResize = useRef(null);
 
-  const handleResize = useCallback(() => {
-    const maxScroll =
-      document.body.offsetHeight -
-      document.querySelector("footer").offsetHeight -
-      window.innerHeight +
-      40;
+  const handlerResize = useCallback(() => {
+    clearTimeout(refTimerResize.current);
+    refTimerResize.current = setTimeout(() => {
+      requestAnimationFrame(() => {
+        const maxScroll =
+          document.body.offsetHeight -
+          document.querySelector("footer").offsetHeight -
+          window.innerHeight +
+          40;
 
-    if (maxScroll < 0) footerHeight.current = 0;
-    else footerHeight.current = maxScroll;
+        if (maxScroll < 0) footerHeight.current = 0;
+        else footerHeight.current = maxScroll;
+      });
+    }, 150);
+  }, []);
 
-    clearTimeout(scannerFooterHeight.current);
-    setTimeout(() => {
-      handleResize();
-      handleScroll();
-    }, 1000);
-  });
-
-  const handleScroll = useCallback(() => {
-    if (window.scrollY > footerHeight.current) {
-      setPosition("bottom");
-    } else {
-      setPosition("left");
-    }
-  });
+  const handlerScroll = useCallback(() => {
+    clearTimeout(refTimerScorll.current);
+    refTimerScorll.current = setTimeout(() => {
+      requestAnimationFrame(() => {
+        if (window.scrollY > footerHeight.current) {
+          setPosition("bottom");
+        } else {
+          setPosition("left");
+        }
+      });
+    }, 150);
+  }, []);
 
   useEffect(() => {
-    handleResize();
+    handlerResize();
+    let is_mounted = true;
 
-    window.addEventListener("scroll", handleScroll);
+    const autoScannerFooterHeight = () => {
+      if (is_mounted) {
+        clearTimeout(scannerFooterHeight.current);
+        scannerFooterHeight.current = setTimeout(() => {
+          handlerResize();
+          handlerScroll();
+        }, 1000);
+        autoScannerFooterHeight();
+      }
+    };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handlerScroll);
+    window.addEventListener("resize", handlerResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      is_mounted = false;
+      clearTimeout(scannerFooterHeight.current);
+      window.removeEventListener("resize", handlerResize);
+      window.removeEventListener("scroll", handlerScroll);
     };
   }, []);
 
