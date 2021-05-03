@@ -1,5 +1,5 @@
 import FillItem from "./FillItem";
-import React, { useState } from "react";
+import { useState } from "react";
 import { setQuestion } from "../../apis/apiQuestion";
 import { verificationEmail } from "../../common/verification";
 
@@ -29,7 +29,6 @@ function FormContact() {
       title: title,
       content: content,
     }).then(() => {
-      console.log("test");
       alert("留言成功~");
       location.reload();
     });
@@ -45,7 +44,7 @@ function FormContact() {
               placeholder="如何稱呼呢?"
               setValue={setName}
               type="text"
-              defaultValue={name}
+              value={name}
               request={true}
             />
           </div>
@@ -54,7 +53,7 @@ function FormContact() {
               placeholder="你的 Email"
               setValue={setEmail}
               type="text"
-              defaultValue={email}
+              value={email}
               request={true}
             />
           </div>
@@ -65,7 +64,7 @@ function FormContact() {
               placeholder="來點主題吧"
               setValue={setTitle}
               type="text"
-              defaultValue={title}
+              value={title}
               request={true}
             />
           </div>
@@ -76,7 +75,7 @@ function FormContact() {
               placeholder="這裡需要一點訊息"
               setValue={setContent}
               type="textArea"
-              defaultValue={content}
+              value={content}
               request={true}
             />
           </div>

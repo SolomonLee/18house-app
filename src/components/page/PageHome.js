@@ -47,9 +47,9 @@ const PageHome = (props) => {
     return () => (_isMounted = false);
   }, []);
 
-  useEffect(() => {
-    console.log("albumHomeRefs: ", albumHomeRefs);
-  }, [albumHomeRefs]);
+  // useEffect(() => {
+  //   // console.log("albumHomeRefs: ", albumHomeRefs);
+  // }, [albumHomeRefs]);
 
   return (
     <div className="content PageHome">

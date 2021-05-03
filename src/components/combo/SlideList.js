@@ -5,20 +5,21 @@ import ShowcaseItem from "../ShowcaseItem";
 function SlideList(props) {
   if (props?.datas?.length == 0) return null;
 
-  const [datas, setDatas] = useState([]); // 存放總資料
   const [datasIndex, setDatasIndex] = useState(0); // 存放目前 index
   const [itemWidth, setItemWidth] = useState(0); // 存放目前 item 寬度, 用於 scroll
+  const [contentWidth, setContentWidth] = useState(0); // 存放目前 content 寬度, 用於 scroll
   const refMaxShowIndex = useRef(0); // 存放最多 scroll 到哪個index
   const refDataBox = useRef(null); // 存放 scroll item , 用於call scrollLeft
   const handleItemWidth = useCallback(() => {
     // 用於持續設定 item 寬度
-    if (refDataBox.current?.firstChild?.offsetWidth != itemWidth || false)
+    if (refDataBox.current?.firstChild?.offsetWidth != itemWidth || false) {
       setItemWidth(refDataBox.current?.firstChild?.offsetWidth);
-  });
+      setContentWidth(refDataBox.current?.offsetWidth);
+    }
+  }, []);
 
   const moveSlide = (index) => {
     if (!itemWidth) handleItemWidth();
-
     if (index >= refMaxShowIndex.current) index = refMaxShowIndex.current;
 
     refDataBox.current.scrollLeft = index * itemWidth;
@@ -34,38 +35,23 @@ function SlideList(props) {
   }, []);
 
   useEffect(() => {
-    const maxShowCount = Math.floor(refDataBox.current.clientWidth / itemWidth);
+    // 計算 refMaxShowIndex
+    let maxShowCount = props.datas.length - Math.ceil(contentWidth / itemWidth);
 
-    let mv = 0;
-    if (maxShowCount >= props.datas.length) refMaxShowIndex.current = 0;
-    else {
-      const mr = props.datas.length - maxShowCount + 1;
-      if (refMaxShowIndex.current > mr) mv = refMaxShowIndex.current - mr;
-      refMaxShowIndex.current = mr;
+    if (maxShowCount < 0) {
+      maxShowCount = 0;
     }
+    if (maxShowCount < refMaxShowIndex.current) {
+      refMaxShowIndex.current = maxShowCount;
+      moveSlide(datasIndex - (refMaxShowIndex.current - maxShowCount));
+    } else refMaxShowIndex.current = maxShowCount;
 
-    moveSlide(datasIndex - mv);
-  }, [itemWidth]);
+    refDataBox.current.scrollLeft = datasIndex * itemWidth;
+  }, [itemWidth, contentWidth]);
 
   useEffect(() => {
     setDatasIndex(0);
   }, [props.datas]);
-
-  const porducts = props.datas.map((data, index) => {
-    switch (props.type) {
-      case "showcase":
-        return (
-          <ShowcaseItem
-            key={props.tkey + index.toString()}
-            title={data.title}
-            subTitle={data.subTitle}
-            imgUrl={data.imgUrl}
-            imgAlt={data.imgAlt}
-            pid={data.pid}
-          />
-        );
-    }
-  });
 
   const handlerMoveRight = () => {
     if (datasIndex + 1 < props.datas.length) moveSlide(datasIndex + 1);
@@ -79,7 +65,21 @@ function SlideList(props) {
     <div className="slide_list_box">
       {props?.title ? <div className="box_title">{props.title}</div> : null}
       <div ref={refDataBox} className="box_content">
-        {porducts}
+        {props.datas.map((data, index) => {
+          switch (props.type) {
+            case "showcase":
+              return (
+                <ShowcaseItem
+                  key={props.tkey + index.toString()}
+                  title={data.title}
+                  subTitle={data.subTitle}
+                  imgUrl={data.imgUrl}
+                  imgAlt={data.imgAlt}
+                  pid={data.pid}
+                />
+              );
+          }
+        })}
       </div>
       <div className="box_bottom">
         <div className="slide_control">

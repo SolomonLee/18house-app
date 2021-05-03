@@ -1,8 +1,8 @@
 import "./App.css";
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { routes, RouteWithSubRoutes } from "./route";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 import Broadcast from "./components/Broadcast";
 import LinkList from "./components/LinkList";
@@ -25,7 +25,7 @@ function App() {
     { tag: "Home", content: "首頁", url: "/" },
     { tag: "Album", content: "作品集", url: "/Album" },
     { tag: "About", content: "關於熊村莊", url: "/About" },
-    { tag: "Schedule", content: "課程表", url: "/Schedule" },
+    // { tag: "Schedule", content: "課程表", url: "/Schedule" },
     { tag: "Charge", content: "收費方式", url: "/Charge" },
     { tag: "Contact", content: "聯絡我們", url: "/Contact" },
   ];
@@ -60,11 +60,13 @@ function App() {
         </div>
         <LinkList styleclass="header_menu" datas={menus} tkey="headerMenu" />
       </header>
-      <Switch>
-        {routes.map((route, i) => {
-          return <RouteWithSubRoutes key={i} {...route} />;
-        })}
-      </Switch>
+      <Suspense fallback={<div>loading...</div>}>
+        <Switch>
+          {routes.map((route, i) => {
+            return <RouteWithSubRoutes key={i} {...route} />;
+          })}
+        </Switch>
+      </Suspense>
       <footer>
         <Split content="熊村莊" />
         <div className="container">

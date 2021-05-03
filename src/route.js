@@ -1,68 +1,58 @@
-import PageHome from "./components/page/PageHome";
-import PageAlbum from "./components/page/PageAlbum";
-import PageAbout from "./components/page/PageAbout";
-import PageSchedule from "./components/page/PageSchedule";
-import PageCharge from "./components/page/PageCharge";
-import PageContact from "./components/page/PageContact";
-import PageFAQ from "./components/page/PageFAQ";
-import PageProduct from "./components/page/PageProduct";
-import PageLogin from "./components/page/PageLogin";
-import PageBackend from "./components/page/PageBackend";
-import PageBackendQuestions from "./components/page/PageBackendQuestions";
+import { lazy } from "react";
 
 import { Route } from "react-router-dom";
 
 export const routes = [
   {
     path: "/Home",
-    component: PageHome,
+    component: lazy(() => import("./components/page/PageHome")),
   },
   {
     path: "/Album",
-    component: PageAlbum,
+    component: lazy(() => import("./components/page/PageAlbum")),
   },
   {
     path: "/About",
-    component: PageAbout,
+    component: lazy(() => import("./components/page/PageAbout")),
   },
   {
     path: "/Schedule",
-    component: PageSchedule,
+    component: lazy(() => import("./components/page/PageSchedule")),
   },
   {
     path: "/Contact",
-    component: PageContact,
+    component: lazy(() => import("./components/page/PageContact")),
   },
   {
     path: "/Charge",
-    component: PageCharge,
+    component: lazy(() => import("./components/page/PageCharge")),
   },
   {
     path: "/FAQ",
-    component: PageFAQ,
+    component: lazy(() => import("./components/page/PageFAQ")),
   },
   {
     path: "/Product/:pid",
-    component: PageProduct,
+    component: lazy(() => import("./components/page/PageProduct")),
   },
   {
     path: "/Login",
-    component: PageLogin,
+    component: lazy(() => import("./components/page/PageLogin")),
   },
   {
     path: "/Backend",
-    component: PageBackend,
+    component: lazy(() => import("./components/page/PageBackend")),
     routes: [
       {
         path: "/Backend/Questions",
-        component: PageBackendQuestions,
+        component: lazy(() => import("./components/page/PageBackendQuestions")),
       },
     ],
   },
 
   {
     path: "/",
-    component: PageHome,
+    component: lazy(() => import("./components/page/PageHome")),
   },
 ];
 

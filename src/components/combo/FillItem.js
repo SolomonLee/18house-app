@@ -2,28 +2,17 @@ import { useState } from "react";
 import InputItem from "../InputItem";
 
 // props { styleClass[string] , title[string], type[string], data , placeholder[string],
-// defaultValue[string], setValue[function]}
+// setValue[function]}
 
 const FillItem = (props) => {
   const [errorMsg, setErrorMsg] = useState(props?.errorMsg || "");
-  const [showPlaceholder, setShowPlaceholder] = useState(
-    props?.placeholder ? (props?.defaultValue ? false : true) : false
-  );
 
   let setValue = (value) => {
     if (props.request) {
       if (value == "") {
         setErrorMsg("不能空著!");
-        setShowPlaceholder(true);
       } else {
         setErrorMsg("");
-        setShowPlaceholder(false);
-      }
-    } else {
-      if (value == "") {
-        setShowPlaceholder(true);
-      } else {
-        setShowPlaceholder(false);
       }
     }
     props.setValue?.(value);
@@ -37,12 +26,13 @@ const FillItem = (props) => {
           type={props.type}
           value={props?.value || null}
           setValue={setValue}
-          defaultValue={props.defaultValue}
+          defaultValue={props?.defaultValue || null}
           error={errorMsg != ""}
+          placeholder={props?.placeholder || null}
         />
-        {showPlaceholder && props?.placeholder ? (
+        {/* {showPlaceholder && props?.placeholder ? (
           <div className="placeholder">{props.placeholder}</div>
-        ) : null}
+        ) : null*/}
         {errorMsg != "" ? <div className="error">{errorMsg}</div> : null}
       </div>
     </div>
