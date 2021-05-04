@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-const SocialFlowBox = (props) => {
+const SocialFlowBox = () => {
   const [position, setPosition] = useState("bottom");
   const footerHeight = useRef(0);
   const scannerFooterHeight = useRef(null);
   const refTimerScorll = useRef(null);
   const refTimerResize = useRef(null);
+  const refFooter = useRef(null);
+  const refFooterSplitItem = useRef(null);
 
   const handlerResize = useCallback(() => {
     clearTimeout(refTimerResize.current);
@@ -13,9 +15,10 @@ const SocialFlowBox = (props) => {
       requestAnimationFrame(() => {
         const maxScroll =
           document.body.offsetHeight -
-          document.querySelector("footer").offsetHeight -
-          window.innerHeight +
-          40;
+          (refFooter.current.offsetHeight -
+            refFooterSplitItem.current.offsetHeight -
+            20) -
+          window.innerHeight;
 
         if (maxScroll < 0) footerHeight.current = 0;
         else footerHeight.current = maxScroll;
@@ -33,23 +36,28 @@ const SocialFlowBox = (props) => {
           setPosition("left");
         }
       });
-    }, 150);
+    }, 50);
   }, []);
 
   useEffect(() => {
+    refFooter.current = document.querySelector("footer");
+    refFooterSplitItem.current = refFooter.current.querySelector(".split_item");
+
     handlerResize();
     let is_mounted = true;
 
     const autoScannerFooterHeight = () => {
+      clearTimeout(scannerFooterHeight.current);
       if (is_mounted) {
-        clearTimeout(scannerFooterHeight.current);
         scannerFooterHeight.current = setTimeout(() => {
           handlerResize();
           handlerScroll();
+          autoScannerFooterHeight();
         }, 1000);
-        autoScannerFooterHeight();
       }
     };
+
+    autoScannerFooterHeight();
 
     window.addEventListener("scroll", handlerScroll);
     window.addEventListener("resize", handlerResize);
