@@ -10,12 +10,12 @@
 - 使用工具
   套件管理工具 npm  
   Create React App  
-  內建 webpack babel scss
-  Single-page Application
+  內建 webpack babel scss  
+  Single-page Application  
   Client-side Render
 
 - 使用 React 相關  
-  reactJS v17
+  reactJS v17  
   Function Component  
   Hook
 
