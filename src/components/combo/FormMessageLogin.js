@@ -49,7 +49,7 @@ export const MessageLogin = (props) => {
         if (refOnSended.current) return;
         refOnSended.current = true;
         if (values.formAction === formAction.login) {
-            console.log(`formAction.login: ${formAction.login}`);
+            // console.log(`formAction.login: ${formAction.login}`);
             dispatch(loginMessagerAsync(values));
             dispatch(loginMessagerAsync(values)).finally(() => {
                 refOnSended.current = false;
@@ -57,7 +57,7 @@ export const MessageLogin = (props) => {
         }
 
         if (values.formAction === formAction.register) {
-            console.log(formAction.register);
+            // console.log(formAction.register);
             dispatch(addMessagerAsync(values)).finally(() => {
                 refOnSended.current = false;
             });

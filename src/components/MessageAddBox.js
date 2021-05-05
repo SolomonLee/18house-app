@@ -81,7 +81,7 @@ const MessageAddBox = (props) => {
     };
 
     const handleSubmit = () => {
-        console.log({ title, content });
+        // console.log({ title, content });
         if (title === "") {
             setError("要有標題喔!!!!!");
             setTimeout(() => {

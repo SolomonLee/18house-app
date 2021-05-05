@@ -182,24 +182,24 @@ export const messageSlice = createSlice({
 
         [getMessageListAsync.pending]: (state) => {},
         [getMessageListAsync.fulfilled]: (state, action) => {
-            console.log("getMessageListAsync p1");
+            // console.log("getMessageListAsync p1");
             if (action.payload === false) {
                 messageSlice.caseReducers.logout(state);
                 return;
             }
-            console.log("getMessageListAsync p2", action.payload.listid);
-            console.log(
-                "getMessageListAsync p3",
-                action.payload.messageList,
-                action.payload.messageList.length
-            );
-            console.log("getMessageListAsync p4", state.messageList);
+            // console.log("getMessageListAsync p2", action.payload.listid);
+            // console.log(
+            //     "getMessageListAsync p3",
+            //     action.payload.messageList,
+            //     action.payload.messageList.length
+            // );
+            // console.log("getMessageListAsync p4", state.messageList);
             state.messageList[action.payload.listid] =
                 action.payload.messageList;
-            console.log(
-                "getMessageListAsync p5",
-                state.messageList[action.payload.listid]
-            );
+            // console.log(
+            //     "getMessageListAsync p5",
+            //     state.messageList[action.payload.listid]
+            // );
         },
         [getMessageListAsync.rejected]: (state) => {
             messageSlice.caseReducers.logout(state);

@@ -35,8 +35,14 @@ const MessageList = (props) => {
         ) {
             if (messageList[props.listid].length > 0) {
                 setMessageListState(messageListStateOpts.DONE);
+                // console.log(
+                //     `SET messageListState : ${messageListStateOpts.DONE}`
+                // );
             } else {
                 setMessageListState(messageListStateOpts.NOMESSAGE);
+                // console.log(
+                //     `SET messageListState : ${messageListStateOpts.NOMESSAGE}`
+                // );
             }
         }
     }, [messageList]);
@@ -46,8 +52,12 @@ const MessageList = (props) => {
         if (
             messageListState !== messageListStateOpts.LOADING &&
             messageListState !== messageListStateOpts.DONE
-        )
+        ) {
             setMessageListState(messageListStateOpts.LOADING);
+            // console.log(
+            //     `SET messageListState : ${messageListStateOpts.LOADING}`
+            // );
+        }
 
         dispatch(getMessageListAsync(props.listid)).finally(() => {
             if (refUpdateButton.current !== null)

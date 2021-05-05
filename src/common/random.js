@@ -7,7 +7,6 @@ initLocal({
 });
 
 const initRandomImageMap = () => {
-    console.log("test");
     window.randomImageMap = storage.randomImageMap.get();
     window.md5Map = storage.md5Map.get();
     if (window.randomImageMap == null) window.randomImageMap = {};
