@@ -2,20 +2,23 @@ import MD5 from "./md5";
 import { storage, initLocal } from "./localStorageExtend";
 
 initLocal({
-    randomImage: "fe2c4f50c64c82149323ac3e85bcb399",
+    randomImageMap: "fe2c4f50c64c82149323ac3e85bcb399",
     md5Map: "e51b939d7b6059e8550d170851f096bd",
 });
 
-var imageResultMap = storage.randomImage.get();
-var md5Map = storage.md5Map.get();
-if (imageResultMap == null) imageResultMap = {};
-if (md5Map == null) md5Map = {};
-if (window.timerUpdateRandomMap === undefined) {
-    window.timerUpdateRandomMap = setInterval(() => {
-        imageResultMap = storage.randomImage.get();
-        md5Map = storage.md5Map.get();
-    }, 5000);
-}
+const initRandomImageMap = () => {
+    console.log("test");
+    window.randomImageMap = storage.randomImageMap.get();
+    window.md5Map = storage.md5Map.get();
+    if (window.randomImageMap == null) window.randomImageMap = {};
+    if (window.md5Map == null) window.md5Map = {};
+    if (window.timerUpdateRandomMap === undefined) {
+        window.timerUpdateRandomMap = setInterval(() => {
+            window.randomImageMap = storage.randomImageMap.get();
+            window.md5Map = storage.md5Map.get();
+        }, 5000);
+    }
+};
 
 const random_characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+?><|-";
@@ -33,14 +36,17 @@ export const randomString = (length) => {
 };
 
 export const randomImage = (str, width = 100, height = 100) => {
-    if (md5Map[str] === undefined) {
-        md5Map[str] = MD5(str);
-        setTimeout(() => storage.md5Map.set(md5Map));
+    if (window.md5Map === undefined || window.randomImageMap === undefined)
+        initRandomImageMap();
+
+    if (window.md5Map[str] === undefined) {
+        window.md5Map[str] = MD5(str);
+        setTimeout(() => storage.md5Map.set(window.md5Map));
     }
 
-    const md5 = md5Map[str];
-    if (imageResultMap[md5] !== undefined) {
-        return imageResultMap[md5];
+    const md5 = window.md5Map[str];
+    if (window.randomImageMap[md5] !== undefined) {
+        return window.randomImageMap[md5];
     }
 
     const elementCanvas = document.createElement("canvas");
@@ -61,7 +67,7 @@ export const randomImage = (str, width = 100, height = 100) => {
 
         const a = ascii / (ascii + (ascii / 10) * Math.PI);
 
-        console.log(x, y, r, g, b, a);
+        // console.log(x, y, r, g, b, a);
         canvas.beginPath();
         canvas.arc(x, y, 20, 20, ((ascii * Math.PI) % 100) * 2, false);
         canvas.strokeStyle = "rgba(" + r + "," + g + "," + b + "," + a + ")";
@@ -69,8 +75,8 @@ export const randomImage = (str, width = 100, height = 100) => {
     }
 
     const url = elementCanvas.toDataURL();
-    imageResultMap[md5] = url;
-    setTimeout(() => storage.randomImage.set(imageResultMap));
+    window.randomImageMap[md5] = url;
+    setTimeout(() => storage.randomImageMap.set(window.randomImageMap));
 
     return elementCanvas.toDataURL();
 };
