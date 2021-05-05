@@ -16,8 +16,14 @@ export const routes = [
     component: lazy(() => import("./components/page/PageAbout")),
   },
   {
-    path: "/Schedule",
-    component: lazy(() => import("./components/page/PageSchedule")),
+    path: "/Backend",
+    component: lazy(() => import("./components/page/PageBackend")),
+    routes: [
+      {
+        path: "/Backend/Questions",
+        component: lazy(() => import("./components/page/PageBackendQuestions")),
+      },
+    ],
   },
   {
     path: "/Contact",
@@ -32,24 +38,21 @@ export const routes = [
     component: lazy(() => import("./components/page/PageFAQ")),
   },
   {
-    path: "/Product/:pid",
-    component: lazy(() => import("./components/page/PageProduct")),
-  },
-  {
     path: "/Login",
     component: lazy(() => import("./components/page/PageLogin")),
   },
   {
-    path: "/Backend",
-    component: lazy(() => import("./components/page/PageBackend")),
-    routes: [
-      {
-        path: "/Backend/Questions",
-        component: lazy(() => import("./components/page/PageBackendQuestions")),
-      },
-    ],
+    path: "/Product/:pid",
+    component: lazy(() => import("./components/page/PageProduct")),
   },
-
+  {
+    path: "/Message",
+    component: lazy(() => import("./components/page/PageMessage")),
+  },
+  {
+    path: "/Schedule",
+    component: lazy(() => import("./components/page/PageSchedule")),
+  },
   {
     path: "/",
     component: lazy(() => import("./components/page/PageHome")),

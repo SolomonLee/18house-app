@@ -28,6 +28,7 @@ function App() {
     // { tag: "Schedule", content: "課程表", url: "/Schedule" },
     { tag: "Charge", content: "收費方式", url: "/Charge" },
     { tag: "Contact", content: "聯絡我們", url: "/Contact" },
+    { tag: "Message", content: "大廳", url: "/Message" },
   ];
 
   const subMenus = [{ tag: "FAQ", content: "FAQ", url: "/FAQ" }];

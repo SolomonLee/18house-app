@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import store from "./reducers/store";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 import "./main.scss";
 

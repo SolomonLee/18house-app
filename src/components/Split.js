@@ -1,9 +1,11 @@
 const Split = (props) => {
   return (
     <div className="split_item">
-      <div className="item_content">
-        <span>{props.content}</span>
-      </div>
+      {props?.content ? (
+        <div className="item_content">
+          <span>{props.content}</span>
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -7,7 +7,7 @@
   *將 fill item 與 input item 功能界定  
   \*嘗試將原先 codeing style 簡化 減少 node 深度
 
-- 使用工具
+- 使用工具  
   套件管理工具 npm  
   Create React App  
   內建 webpack babel scss  

@@ -1,88 +1,88 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import {
+    useWhenWindowResize,
+    useWhenWindowScroll,
+    useWindowScrollY,
+} from "../hook/elementHook";
 
 const SocialFlowBox = () => {
-  const [position, setPosition] = useState("bottom");
-  const footerHeight = useRef(0);
-  const scannerFooterHeight = useRef(null);
-  const refTimerScorll = useRef(null);
-  const refTimerResize = useRef(null);
-  const refFooter = useRef(null);
-  const refFooterSplitItem = useRef(null);
+    const [position, setPosition] = useState("bottom");
+    const footerHeight = useRef(0);
+    const refFooter = useRef(null);
+    const refIsMounted = useRef(false);
+    const refFooterSplitItem = useRef(null);
+    const windowScrollY = useWindowScrollY();
 
-  const handlerResize = useCallback(() => {
-    clearTimeout(refTimerResize.current);
-    refTimerResize.current = setTimeout(() => {
-      requestAnimationFrame(() => {
-        const maxScroll =
-          document.body.offsetHeight -
-          (refFooter.current.offsetHeight -
-            refFooterSplitItem.current.offsetHeight -
-            20) -
-          window.innerHeight;
+    const handlerResize = () => {
+        requestAnimationFrame(() => {
+            const maxScroll =
+                document.body.offsetHeight -
+                (refFooter.current.offsetHeight -
+                    refFooterSplitItem.current.offsetHeight -
+                    20) -
+                window.innerHeight;
 
-        if (maxScroll < 0) footerHeight.current = 0;
-        else footerHeight.current = maxScroll;
-      });
-    }, 150);
-  }, []);
+            if (maxScroll < 0) footerHeight.current = 0;
+            else footerHeight.current = maxScroll;
+        });
+    };
 
-  const handlerScroll = useCallback(() => {
-    clearTimeout(refTimerScorll.current);
-    refTimerScorll.current = setTimeout(() => {
-      requestAnimationFrame(() => {
-        if (window.scrollY > footerHeight.current) {
-          setPosition("bottom");
-        } else {
-          setPosition("left");
-        }
-      });
-    }, 50);
-  }, []);
+    const handlerScroll = () => {
+        requestAnimationFrame(() => {
+            if (windowScrollY.current > footerHeight.current) {
+                setPosition("bottom");
+            } else {
+                setPosition("left");
+            }
+        });
+    };
 
-  useEffect(() => {
-    refFooter.current = document.querySelector("footer");
-    refFooterSplitItem.current = refFooter.current.querySelector(".split_item");
+    useWhenWindowResize(() => {
+        handlerResize();
+    });
 
-    handlerResize();
-    let is_mounted = true;
+    useWhenWindowScroll(() => {
+        handlerScroll();
+    });
 
-    const autoScannerFooterHeight = () => {
-      clearTimeout(scannerFooterHeight.current);
-      if (is_mounted) {
-        scannerFooterHeight.current = setTimeout(() => {
-          handlerResize();
-          handlerScroll();
-          autoScannerFooterHeight();
+    useEffect(() => {
+        refIsMounted.current = true;
+        refFooter.current = document.querySelector("footer");
+        refFooterSplitItem.current = refFooter.current.querySelector(
+            ".split_item"
+        );
+
+        handlerResize();
+
+        const autoScannerTimer = setInterval(() => {
+            if (refIsMounted.current) {
+                handlerResize();
+                handlerScroll();
+            } else {
+                clearInterval(autoScannerTimer);
+            }
         }, 1000);
-      }
-    };
 
-    autoScannerFooterHeight();
+        return () => {
+            refIsMounted.current = false;
+            clearInterval(autoScannerTimer);
+        };
+    }, []);
 
-    window.addEventListener("scroll", handlerScroll);
-    window.addEventListener("resize", handlerResize);
-    return () => {
-      is_mounted = false;
-      clearTimeout(scannerFooterHeight.current);
-      window.removeEventListener("resize", handlerResize);
-      window.removeEventListener("scroll", handlerScroll);
-    };
-  }, []);
-
-  return (
-    <div className="socialflow_box" position={position}>
-      <div className="box_content">
-        <a
-          href="https://www.facebook.com/%E7%86%8A%E6%9D%91%E8%8E%8A%E5%89%B5%E8%97%9D%E5%B7%A5%E5%9D%8A-111717077626555/?modal=admin_todo_tour&notif_id=1613986852741884&notif_t=page_invite&ref=notif"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn_style_none btn_link"
-        >
-          <img src="/img/fb_black.svg" alt="" />
-        </a>
-      </div>
-    </div>
-  );
+    return (
+        <div className="socialflow_box" position={position}>
+            <div className="box_content">
+                <a
+                    href="https://www.facebook.com/%E7%86%8A%E6%9D%91%E8%8E%8A%E5%89%B5%E8%97%9D%E5%B7%A5%E5%9D%8A-111717077626555/?modal=admin_todo_tour&notif_id=1613986852741884&notif_t=page_invite&ref=notif"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn_style_none btn_link"
+                >
+                    <img src="/img/fb_black.svg" alt="" />
+                </a>
+            </div>
+        </div>
+    );
 };
 
 export default SocialFlowBox;
