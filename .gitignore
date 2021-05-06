@@ -11,6 +11,7 @@
 # production
 /build
 src/apis/apiFireStroe.js
+apiFireStroe.js
 
 # misc
 .DS_Store
